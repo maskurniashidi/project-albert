@@ -14,7 +14,7 @@ import ReactLoading from "react-loading";
 import { Typography, Breadcrumbs } from "@mui/material";
 import { Select, Image, Timeline, Input, Tooltip, Skeleton, message } from "antd";
 import { FaUserAlt, FaImage } from "react-icons/fa";
-import { RiEBikeFill, RiBankCard2Fill } from "react-icons/ri";
+import { RiLockPasswordFill } from "react-icons/ri";
 import { DefaultAvatar } from "../../../assets/assets";
 //var
 const { TextArea } = Input;
@@ -30,7 +30,10 @@ function EditPatient(props) {
     const history = useHistory;
     const [profileImage, setProfileImage] = useState(null);
     const { id } = useParams();
-
+    const [password, setPassword] = useState({
+        current_password: "",
+        new_password: "",
+    });
     const [user, setUser] = useState({
         id: "",
         name: "",
@@ -173,6 +176,17 @@ function EditPatient(props) {
             });
     }
 
+    const handleChangePassword = (event) => {
+        setPassword({
+            ...password,
+            [event.target.name]: event.target.value,
+        });
+    };
+
+    const updatePassword = () => {
+
+    }
+
     return (
         <DashboardLayout>
             <ToastContainer
@@ -189,15 +203,15 @@ function EditPatient(props) {
             />
             <div className={styles.wrapper}>
                 <div className={styles.topWrapper}>
-                    <h2 className={styles.pageTitle}>Edit Pasien</h2>
+                    <h2 className={styles.pageTitle}>Edit User</h2>
                     <Breadcrumbs aria-label="breadcrumb" className={styles.breadcumbs}>
                         <Link className={styles.breadActive} underline="hover" color="inherit" to="/dashboard">
                             Home
                         </Link>
-                        <Link className={styles.breadActive} underline="hover" color="inherit" to="/pasien">
-                            Pasien
+                        <Link className={styles.breadActive} underline="hover" color="inherit" to="/user">
+                            User
                         </Link>
-                        <Typography className={styles.breadUnactive}>Edit Pasien</Typography>
+                        <Typography className={styles.breadUnactive}>Edit User</Typography>
                     </Breadcrumbs>
                 </div>
             </div>
@@ -209,57 +223,27 @@ function EditPatient(props) {
                         <div className={styles.leftContainer}>
                             <div className={styles.profile}>
                                 <div className={styles.imageBoxProfile}>
-                                    <Image src={`http://localhost:3000/${user.profileImage}`} className={styles.imageItemProfile} />
+                                    <Image src={DefaultAvatar} className={styles.imageItemProfile} />
                                 </div>
                                 <div className={styles.topProfileText}>
-                                    <h5 className={styles.name}>{detail.name}</h5>
-                                    <p className={styles.type}>Pasien</p>
+                                    <h5 className={styles.name}>Albert Kurniawan</h5>
+                                    <p className={styles.type}>User</p>
                                 </div>
                             </div>
                             <div className={styles.mainDetail}>
                                 <div className={styles.mainUserDetail}>
                                     <div className={styles.mainTitle}>
                                         <FaUserAlt className={styles.mainTitleIcon} />
-                                        <h4 className={styles.mainTitleText}>Data Diri Pasien</h4>
+                                        <h4 className={styles.mainTitleText}>Data Diri User</h4>
                                     </div>
                                     <div className={styles.mainDetailData}>
                                         <div className={styles.mainLeftData}>
-                                            <div className={styles.formField}>
-                                                <p className={styles.titleDetail}>Foto Profile</p>
-                                                <div className={styles.imageUpdate}>
-                                                    {
-                                                        profileImage !== null ?
-                                                            <div className={styles.imageBox}>
-                                                                {
-                                                                    profileImage !== null && <Image src={URL.createObjectURL(profileImage)} alt="" className={styles.profileImagePic} />
-                                                                }
-                                                            </div> : <div className={styles.imageBox}>
-                                                                <Image src={`http://localhost:3000/${user.profileImage}`} alt="" className={styles.profileImagePic} />
-                                                            </div>
-                                                    }
-                                                    <input type="file" className={styles.imgUpdate} onChange={handleChangeImage} />
-                                                </div>
-                                            </div>
+
                                             <div className={styles.formField}>
                                                 <p className={styles.titleDetail}>Nama</p>
                                                 <Input value={user.name} name="name" onChange={handleChange} />
                                             </div>
-                                            <div className={styles.formField}>
-                                                <p className={styles.titleDetail}>No Medis</p>
-                                                <Input type="number" value={user.medicalRecordNumber} name="medicalRecordNumber" onChange={handleChange} />
-                                            </div>
-                                            <div className={styles.formField}>
-                                                <p className={styles.titleDetail}>Jenis Kelamin</p>
-                                                {/* <Input value={detail.user.gender} /> */}
-                                                <Select value={user.gender} onChange={handleChangeGender} className={styles.formControl}>
-                                                    <Option value="L">Laki-laki</Option>
-                                                    <Option value="P">Perempuan</Option>
-                                                </Select>
-                                            </div>
-                                            <div className={styles.formField}>
-                                                <p className={styles.titleDetail}>Tanggal Lahir</p>
-                                                <Input type="date" value={user.birthDate} name="birthDate" onChange={handleChange} />
-                                            </div>
+
                                             <div className={styles.formField}>
                                                 <p className={styles.titleDetail}>Email</p>
                                                 <Input type="email" value={user.email} name="email" onChange={handleChange} />
@@ -268,21 +252,29 @@ function EditPatient(props) {
                                                 <p className={styles.titleDetail}>No Whatsapp</p>
                                                 <Input addonBefore="+62" type="number" value={user.phoneNumber} name="phoneNumber" onChange={handleChange} />
                                             </div>
-                                            <div className={styles.formField}>
-                                                <p className={styles.titleDetail}>Alamat</p>
-                                                <Input value={user.address} name="address" onChange={handleChange} />
-                                            </div>
-                                            <div className={styles.formField}>
-                                                <p className={styles.titleDetail}>Penyakit</p>
-                                                <Input value={user.disease} name="disease" onChange={handleChange} />
-                                            </div>
-                                            <div className={styles.formField}>
-                                                <p className={styles.titleDetail}>Catatan</p>
-                                                <Input value={user.note} name="note" onChange={handleChange} />
-                                            </div>
                                         </div>
                                     </div>
                                     <button onClick={updateUser} className={styles.btnSave}>Simpan</button>
+                                </div>
+
+                                <div className={styles.mainUserDetail}>
+                                    <div className={styles.mainTitle}>
+                                        <RiLockPasswordFill className={styles.mainTitleIcon} />
+                                        <h4 className={styles.mainTitleText}>Ubah Kata Sandi</h4>
+                                    </div>
+                                    <div className={styles.mainDetailData}>
+                                        <div className={styles.mainLeftData}>
+                                            <div className={styles.detailGroup}>
+                                                <p className={styles.detailTitle}>Kata Sandi Baru</p>
+                                                <Input.Password required onChange={handleChangePassword} name="current_password" value={password.current_password} className={styles.formControl} iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)} />
+                                            </div>
+                                            <div className={styles.detailGroup}>
+                                                <p className={styles.detailTitle}>Konfirmasi Kata Sandi</p>
+                                                <Input.Password required onChange={handleChangePassword} name="new_password" value={password.new_password} className={styles.formControl} iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button onClick={updatePassword} className={styles.btnSave}>Ubah</button>
                                 </div>
                             </div>
                         </div>

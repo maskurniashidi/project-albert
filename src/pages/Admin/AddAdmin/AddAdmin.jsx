@@ -117,7 +117,7 @@ function AddAdmin(props) {
             />
             <div className={styles.wrapper}>
                 <div className={styles.topWrapper}>
-                    <h2 className={styles.pageTitle}>Tambah Dokter</h2>
+                    <h2 className={styles.pageTitle}>Tambah Admin</h2>
                     <Breadcrumbs aria-label="breadcrumb" className={styles.breadcumbs}>
                         <Link className={styles.breadActive} to="/dashboard">
                             Home

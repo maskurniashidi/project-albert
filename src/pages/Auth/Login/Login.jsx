@@ -1,18 +1,12 @@
-//react component
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-//dependency component
 import axios from "axios";
-import { BASE_API_URL } from "../../../helper/url";
-//my own component
 import styles from "./Login.module.css";
 import LoginNav from "../../../components/navbars/login-nav/LoginNav";
 import { login } from "../../../utils/auth";
 import { EyeInvisibleOutlined, EyeTwoTone } from "../../../assets/assets";
-import LoginLogo from "../../../assets/images/login-logo.png";
-//framework component
 import ReactLoading from "react-loading";
 import { Input, message, Alert } from "antd";
+
 function Login(props) {
   //state
   const [openAlert, setOpenAlert] = useState(false);
@@ -34,20 +28,36 @@ function Login(props) {
   //handle submit login
   const handleLogin = () => {
     setLoading(true);
+    var dataBody = JSON.stringify({
+      "email": user.email,
+      "password": user.password
+    });
 
-    if (user.email === "admin@gmail.com" && user.password === "admin") {
-      login({
-        email: user.email,
-        token: Math.random(),
+    var config = {
+      method: 'post',
+      url: 'https://wild-tan-tadpole-tutu.cyclic.app/auth/login',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: dataBody
+    };
+
+    axios(config)
+      .then(function (response) {
+        login({
+          email: user.email,
+          token: response.data.loginToken,
+        });
+        localStorage.setItem("user", JSON.stringify(response.data.userData));
+        message.success("Login berhasil");
+        setLoading(false);
+        props.history.push("/dashboard");
+      })
+      .catch(function (error) {
+        setMessageVal("Email atau password anda salah");
+        setLoading(false);
+        setOpenAlert(true);
       });
-      message.success("Login berhasil");
-      setLoading(false);
-      props.history.push("/dashboard");
-    } else {
-      setMessageVal("Email atau password anda salah");
-      setLoading(false);
-      setOpenAlert(true);
-    }
 
   };
   return (
@@ -89,11 +99,11 @@ function Login(props) {
               </label>
               <Input.Password required name="password" className={styles.input} value={user.password} onChange={handleChange} iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)} />
             </div>
-            <div className={styles.infoLogin}>
+            {/* <div className={styles.infoLogin}>
               <a target="_blank" href="https://api.whatsapp.com/send?phone=6287861130080&text=Saya%20lupa%20kata%20sandi%20saya." className={styles.linkForgetPw}>
                 Lupa kata sandi ?
               </a>
-            </div>
+            </div> */}
             <div className={styles.infoLogin}></div>
             {loading ? (
               <button disabled className={styles.btnLogin}>

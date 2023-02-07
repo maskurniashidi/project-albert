@@ -84,21 +84,21 @@ function DashboardSidebar() {
                 <h5 className={styles.text}>Dicom Viewer</h5>
               </Link>
             )} */}
-            {/* <>
-              {location.pathname.slice(0, 7) === "/dokter" ? (
-                <Link to="/dokter" className={styles.linkSidebarActive}>
-                  <img src={UserColor} alt="icon sidebar" className={styles.iconSidebar} />
-                  <h5 className={styles.textColor}>Dokter</h5>
+            <>
+              {location.pathname.slice(0, 8) === "/history" ? (
+                <Link to="/history" className={styles.linkSidebarActive}>
+                  <img src={StatistikColor} alt="icon sidebar" className={styles.iconSidebar} />
+                  <h5 className={styles.textColor}>History</h5>
                 </Link>
               ) : (
-                <Link to="/dokter" className={styles.linkSidebar}>
-                  <img src={UserDark} alt="icon sidebar" className={styles.iconSidebar} />
-                  <h5 className={styles.text}>Dokter</h5>
+                <Link to="/history" className={styles.linkSidebar}>
+                  <img src={StatistikDark} alt="icon sidebar" className={styles.iconSidebar} />
+                  <h5 className={styles.text}>History</h5>
                 </Link>
               )}
-            </> */}
+            </>
             {location.pathname.slice(0, 5) === "/user" ? (
-              <Link to="/pasien" className={styles.linkSidebarActive}>
+              <Link to="/user" className={styles.linkSidebarActive}>
                 <img src={UserColor1} alt="icon sidebar" className={styles.iconSidebar} />
                 <h5 className={styles.textColor}>User</h5>
               </Link>

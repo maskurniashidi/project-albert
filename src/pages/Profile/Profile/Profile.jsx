@@ -4,7 +4,7 @@ import DashboardLayout from "../../../layouts/dashboard-layout/DashboardLayout";
 import { DefaultAvatar, UserDark } from "../../../assets/assets";
 import { RiUserFill, RiNotification3Fill, RiLockPasswordFill } from "react-icons/ri";
 import { Link, useLocation } from "react-router-dom";
-import AllNotifications from "../Notifications/AllNotification/AllNotifications";
+// import AllNotifications from "../Notifications/AllNotification/AllNotifications";
 import MyAccount from "../MyAccount/MyAccount";
 import ResetPassword from "../ResetPassword/ResetPassword";
 function Profile(props) {
@@ -33,10 +33,10 @@ function Profile(props) {
               <p className={styles.menuText}>Akun Saya</p>
             </Link>
             {/* Reset password */}
-            <Link to={{ pathname: "/profile", search: "?type=reset-password" }} className={styles.menuItem}>
+            {/* <Link to={{ pathname: "/profile", search: "?type=reset-password" }} className={styles.menuItem}>
               <RiLockPasswordFill className={styles.menuIcon} />
               <p className={styles.menuText}>Ubah Password</p>
-            </Link>
+            </Link> */}
             {/* <Link to="/profile" className={styles.menuItem}>
               <p className={styles.menuText}>ubah Profil</p>
             </Link>
@@ -55,16 +55,16 @@ function Profile(props) {
               <MyAccount />
             </>
           )}
-          {location.search === "?type=notifikasi" && (
+          {/* {location.search === "?type=notifikasi" && (
             <>
               <AllNotifications />
             </>
-          )}
-          {location.search === "?type=reset-password" && (
+          )} */}
+          {/* {location.search === "?type=reset-password" && (
             <>
               <ResetPassword />
             </>
-          )}
+          )} */}
         </div>
       </div>
     </DashboardLayout>

@@ -15,129 +15,71 @@ import { Carousel } from "react-bootstrap";
 import { Typography, Breadcrumbs } from "@mui/material";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 import { MdSensors } from "react-icons/md";
-import { DatasetController } from "chart.js";
 
 const { Option } = Select;
 
 function Dashboard() {
   //state
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
-  const [totalPatient, setTotalPatient] = useState(0);
-  const [totalDoctor, setTotalDoctor] = useState(0);
-  const [newData, setNewdata] = useState([]);
-  const [dataPatient, setDataPatient] = useState([]);
-  const [dataDoctor, setDataDoctor] = useState([]);
-  const [data, setData] = useState()
-  //get all data
-  useEffect(() => {
-    // get patient
-    var config = {
-      method: "get",
-      url: `${BASE_API_URL}/patient`,
-    };
+  const [dataFlow, setDataFlow] = useState([{
+    key: 1, duration: 33, time: "01:00:00", status: "Error"
+  }, {
+    key: 2, duration: 6, time: "02:43:12", status: "Fixed"
+  }, {
+    key: 3, duration: 2, time: "11:42:14", status: "Start"
+  }, {
+    key: 4, duration: 1, time: "02:12:00", status: "End"
+  },]);
 
-    axios(config)
-      .then(function (response) {
+  const [dataVibration, setDataVibration] = useState([{
+    key: 1, duration: 3, time: "10:00:00", status: "Error"
+  }, {
+    key: 2, duration: 4, time: "13:23:12", status: "Fixed"
+  }, {
+    key: 3, duration: 1, time: "12:32:12", status: "Start"
+  }, {
+    key: 4, duration: 6, time: "09:12:12", status: "End"
+  },]);
 
-        setTotalPatient(response.data.length);
-
-        var newDataTemp = [];
-        response.data.slice(0, 5).map((item) => {
-          newDataTemp = [...newDataTemp, { key: item.id, name: item.name, medicNumber: item.medicalRecordNumber, gender: item.gender, phoneNumber: item.phoneNumber, tags: ["Pasien"] }];
-
-        });
-        setDataPatient(newDataTemp);
-
-        // get doctor
-
-        var config = {
-          method: "get",
-          url: `${BASE_API_URL}/doctor`,
-        };
-
-        axios(config)
-          .then(function (response) {
-            setTotalDoctor(response.data.length);
-            var dataDoctorTemp = [];
-            response.data.slice(0, 5).map((item) => {
-              dataDoctorTemp = [...dataDoctorTemp, { key: item.id, name: item.user.name, strNumber: item.strNumber, gender: item.user.gender, phoneNumber: item.user.phoneNumber, tags: ["Dokter"] }];
-            });
-            setDataDoctor(dataDoctorTemp);
-            var config = {
-              method: 'get',
-              url: `${BASE_API_URL}/me`,
-            };
-
-            axios(config)
-              .then(function (response) {
-                setData(response.data)
-                setLoading(false);
-              })
-              .catch(function (error) {
-                setLoading(false);
-                if (error.response.status === 401) {
-                  logout();
-                  message.error("Sesi telah habis, silahkan login kembali");
-                  history.replace("/");
-                }
-                console.log(error);
-              });
-          })
-          .catch(function (error) {
-            console.log(error);
-            setLoading(false);
-          });
-        // end doctor
-      })
-      .catch(function (error) {
-        if (error.response.status === 401) {
-          logout();
-          message.error("Sesi telah habis, silahkan login kembali");
-          history.replace("/");
-        }
-        setLoading(false);
-      });
-
-
-  }, []);
+  // newDataTemp = [...newDataTemp, { key: item.id, name: item.name, medicNumber: item.medicalRecordNumber, gender: item.gender, phoneNumber: item.phoneNumber, tags: ["Pasien"] }];
 
   // table
-  const columns = [
+  const columnsFlow = [
     {
       title: "Duration",
-      dataIndex: "medicNumber",
-      key: "medicNumber",
+      dataIndex: "duration",
+      key: "duration",
       render: (text) => <Link>{text}</Link>,
     },
     {
       title: "Time",
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "time",
+      key: "time",
     },
     {
       title: "Status",
-      dataIndex: "gender",
-      key: "gender",
+      dataIndex: "status",
+      key: "status",
     },
   ];
 
-  const columns2 = [
+  const columnsVibration = [
     {
       title: "Duration",
-      dataIndex: "strNumber",
-      key: "strNumber",
+      dataIndex: "duration",
+      key: "duration",
       render: (text) => <Link>{text}</Link>,
     },
     {
       title: "Time",
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "time",
+      key: "time",
     },
     {
       title: "Status",
-      dataIndex: "gender",
-      key: "gender",
+      dataIndex: "status",
+      key: "status",
     },
   ];
 
@@ -176,7 +118,7 @@ function Dashboard() {
                   <MdSensors className={styles.sensorIcon} />
                 </div>
 
-                <div className={styles.testBox}>
+                {/* <div className={styles.testBox}>
                   <div className={styles.testLeft}>
                     <h4 className={styles.testText}>MBTF</h4>
                     <h4 className={styles.testText}>Time</h4>
@@ -191,18 +133,33 @@ function Dashboard() {
                     </div>
                     <h4 className={styles.testText}>: 42</h4>
                   </div>
+                </div> */}
+
+                <div className={styles.testBox}>
+                  <h4 className={styles.testText}>Input Durasi Uji : </h4>
+                  <Input className={styles.testTimeInput} placeholder="20" />
+                  <button className={styles.btnTestTime}>Test</button>
                 </div>
 
-                <h3 className={styles.dashboardTableTitle}>History</h3>
+                <div className={styles.testBox2}>
+                  <h4 className={styles.testText}>MTBF : 12</h4>
+                  <h4 className={styles.testText}>Reliability : 23</h4>
+                </div>
+
+                {/* <h3 className={styles.dashboardTableTitle}>History</h3> */}
 
                 <div className={styles.tableDashboardCard}>
                   <h3 className={styles.dashboardTableTitle}>Record 1</h3>
-                  <Table columns={columns} dataSource={dataPatient} />
+                  <Table columns={columnsFlow} dataSource={dataFlow} pagination={false} />
                 </div>
                 <div className={styles.tableDashboardCard}>
                   <h3 className={styles.dashboardTableTitle}>Record 2</h3>
-                  <Table columns={columns} dataSource={dataPatient} />
+                  <Table columns={columnsFlow} dataSource={dataFlow} pagination={false} />
                 </div>
+                {/* <div className={styles.tableDashboardCard}>
+                  <h3 className={styles.dashboardTableTitle}>Record 2</h3>
+                  <Table columns={columns} dataSource={dataPatient} />
+                </div> */}
               </div>
               <div className={styles.dashboardRight}>
                 <h3 className={styles.dashboardKeuanganTitle}>VIBRATION SENSOR</h3>
@@ -213,7 +170,7 @@ function Dashboard() {
                   <MdSensors className={styles.sensorIcon} />
                 </div>
 
-                <div className={styles.testBox}>
+                {/* <div className={styles.testBox}>
                   <div className={styles.testLeft}>
                     <h4 className={styles.testText}>MBTF</h4>
                     <h4 className={styles.testText}>Time</h4>
@@ -230,16 +187,33 @@ function Dashboard() {
                   </div>
                 </div>
 
-                <h3 className={styles.dashboardTableTitle}>History</h3>
+                <h3 className={styles.dashboardTableTitle}>History</h3> */}
+
+                <div className={styles.testBox}>
+                  <h4 className={styles.testText}>Input Durasi Uji : </h4>
+                  <Input className={styles.testTimeInput} placeholder="20" />
+                  <button className={styles.btnTestTime}>Test</button>
+                </div>
+
+
+                <div className={styles.testBox2}>
+                  <h4 className={styles.testText}>MTBF : 12</h4>
+                  <h4 className={styles.testText}>Reliability : 23</h4>
+                </div>
 
                 <div className={styles.tableDashboardCard}>
                   <h3 className={styles.dashboardTableTitle}>Record 1</h3>
-                  <Table columns={columns} dataSource={dataPatient} />
+                  <Table columns={columnsVibration} dataSource={dataVibration} pagination={false} />
                 </div>
                 <div className={styles.tableDashboardCard}>
                   <h3 className={styles.dashboardTableTitle}>Record 2</h3>
-                  <Table columns={columns} dataSource={dataPatient} />
+                  <Table columns={columnsVibration} dataSource={dataVibration} pagination={false} />
                 </div>
+                {/* <div className={styles.tableDashboardCard}>
+                  <h3 className={styles.dashboardTableTitle}>Record 2</h3>
+                  <Table columns={columns} dataSource={dataPatient} />
+                </div> */}
+
               </div>
             </div>
 

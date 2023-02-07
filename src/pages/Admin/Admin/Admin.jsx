@@ -15,8 +15,11 @@ const { Search } = Input;
 function Admin() {
     const [data, setData] = useState();
     const [dataForSearch, setDataForSearch] = useState();
-    const [dataDoctor, setDataDoctor] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [dataDoctor, setDataDoctor] = useState([
+        { userId: 1, key: 1, name: "Albert Kurniawan", gender: "albert@gmail.com", phoneNumber: "6287864132080", tags: ["Admin"] },
+        { userId: 1, key: 1, name: "Admin", gender: "admin@gmail.com", phoneNumber: "6287861113080", tags: ["Admin"] }
+    ]);
+    const [loading, setLoading] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [inputSearch, setInputSearch] = useState("");
     const showModal = () => {
@@ -28,30 +31,28 @@ function Admin() {
     const handleCancel = () => {
         setIsModalOpen(false);
     };
-    useEffect(() => {
-        // get doctor
-        var config = {
-            method: "get",
-            url: `${BASE_API_URL}/user`,
-        };
+    // useEffect(() => {
+    //     var config = {
+    //         method: "get",
+    //         url: `${BASE_API_URL}/user`,
+    //     };
 
-        axios(config)
-            .then(function (response) {
-                var dataTemp = [];
-                var dataFind = response.data.filter((e) => e.roleId === 1);
-                dataFind.map((item) => {
-                    dataTemp = [...dataTemp, { userId: item.id, key: item.id, name: item.name, gender: item.gender, phoneNumber: item.phoneNumber, tags: ["Admin"] }]
-                })
-                setData(dataTemp);
-                setDataForSearch(dataTemp)
-                setLoading(false);
-            })
-            .catch(function (error) {
-                console.log(error);
-                setLoading(false);
-            });
-        // end doctor
-    }, []);
+    //     axios(config)
+    //         .then(function (response) {
+    //             var dataTemp = [];
+    //             var dataFind = response.data.filter((e) => e.roleId === 1);
+    //             dataFind.map((item) => {
+    //                 dataTemp = [...dataTemp, { userId: item.id, key: item.id, name: item.name, gender: item.gender, phoneNumber: item.phoneNumber, tags: ["Admin"] }]
+    //             })
+    //             setData(dataTemp);
+    //             setDataForSearch(dataTemp)
+    //             setLoading(false);
+    //         })
+    //         .catch(function (error) {
+    //             console.log(error);
+    //             setLoading(false);
+    //         });
+    // }, []);
 
     // delete doctor
     const deleteDoctor = (val) => {
@@ -100,7 +101,7 @@ function Admin() {
             key: "name",
         },
         {
-            title: "Gender",
+            title: "Email",
             dataIndex: "gender",
             key: "gender",
         },
@@ -185,7 +186,7 @@ function Admin() {
             ) : (
                 <div className={styles.wrapper}>
                     <div className={styles.topWrapper}>
-                        <h2 className={styles.pageTitle}>Pengguna</h2>
+                        <h2 className={styles.pageTitle}>Admin</h2>
                         <Breadcrumbs aria-label="breadcrumb" className={styles.breadcumbs}>
                             <Link className={styles.breadActive} underline="hover" color="inherit" to="/dashboard">
                                 Home
@@ -218,7 +219,7 @@ function Admin() {
                         </div>
                     </div>
                     <div className={styles.tableContainerDoctor}>
-                        <Table columns={columns2} dataSource={data} />
+                        <Table columns={columns2} dataSource={dataDoctor} />
                     </div>
                 </div>
             )}

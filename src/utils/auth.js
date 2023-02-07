@@ -5,19 +5,8 @@ export const login = (user) => {
 
 export const logout = () => {
   localStorage.removeItem("USER");
-    localStorage.removeItem("user");
-  // localStorage.removeItem("WA");
+  localStorage.removeItem("user");
   localStorage.removeItem("TOKEN");
-  localStorage.removeItem("user-detail");
-  localStorage.removeItem("page");
-  localStorage.removeItem("lat_order");
-  localStorage.removeItem("lng_order");
-  localStorage.removeItem("TOKEN");
-  localStorage.removeItem("lat_destination");
-  localStorage.removeItem("path-tambah-pengguna");
-  localStorage.removeItem("lng_destination");
-  localStorage.removeItem("device_token");
-  localStorage.removeItem("cekDirection");
 };
 
 export const isLogin = () => {

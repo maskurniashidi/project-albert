@@ -248,7 +248,7 @@ function EditAdmin(props) {
                                     <Image src={DefaultAvatar} className={styles.imageItemProfile} />
                                 </div>
                                 <div className={styles.topProfileText}>
-                                    <h5 className={styles.name}>{detail.name}</h5>
+                                    <h5 className={styles.name}>Albert Kurniawan</h5>
                                     <p className={styles.type}>Admin</p>
                                 </div>
                             </div>
@@ -264,14 +264,14 @@ function EditAdmin(props) {
                                                 <p className={styles.titleDetail}>Nama</p>
                                                 <Input value={user.name} name="name" onChange={handleChange} />
                                             </div>
-                                            <div className={styles.formField}>
+                                            {/* <div className={styles.formField}>
                                                 <p className={styles.titleDetail}>Jenis Kelamin</p>
-                                                {/* <Input value={detail.user.gender} /> */}
+                                                <Input value={detail.user.gender} />
                                                 <Select value={user.gender} onChange={handleChangeGender} className={styles.formControl}>
                                                     <Option value="L">Laki-laki</Option>
                                                     <Option value="P">Perempuan</Option>
                                                 </Select>
-                                            </div>
+                                            </div> */}
                                             <div className={styles.formField}>
                                                 <p className={styles.titleDetail}>Email</p>
                                                 <Input type="email" value={user.email} name="email" onChange={handleChange} />

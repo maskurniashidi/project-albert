@@ -17,34 +17,38 @@ function Patient() {
   const [dataForSearch, setDataForSearch] = useState();
   const [inputSearch, setInputSearch] = useState("");
   const history = useHistory();
-  const [dataPatient, setDataPatient] = useState([]);
+  const [dataPatient, setDataPatient] = useState([
+
+    { userId: 1, key: 1, name: "Albert Kurniawan", gender: "albert@gmail.com", phoneNumber: "6287864132080", tags: ["User"] },
+    { userId: 1, key: 1, name: "User", gender: "user@gmail.com", phoneNumber: "6287861113080", tags: ["User"] }
+  ]);
   const [loading, setLoading] = useState(false);
 
   //get all data
-  useEffect(() => {
-    var config = {
-      method: "get",
-      url: `${BASE_API_URL}/patient`,
-    };
+  // useEffect(() => {
+  //   var config = {
+  //     method: "get",
+  //     url: `${BASE_API_URL}/patient`,
+  //   };
 
-    axios(config)
-      .then(function (response) {
-        var newDataTemp = [];
-        response.data.map((item) => {
-          newDataTemp = [...newDataTemp, { key: item.id, name: item.name, medicNumber: item.medicalRecordNumber, gender: item.gender, phoneNumber: item.phoneNumber, tags: ["Pasien"] }];
-        });
-        setDataPatient(newDataTemp.reverse());
-        setDataForSearch(newDataTemp.reverse())
-      })
-      .catch(function (error) {
-        if (error.response.status === 401) {
-          logout();
-          message.error("Sesi telah habis, silahkan login kembali");
-          history.replace("/");
-        }
-        setLoading(false);
-      });
-  }, []);
+  //   axios(config)
+  //     .then(function (response) {
+  //       var newDataTemp = [];
+  //       response.data.map((item) => {
+  //         newDataTemp = [...newDataTemp, { key: item.id, name: item.name, medicNumber: item.medicalRecordNumber, gender: item.gender, phoneNumber: item.phoneNumber, tags: ["Pasien"] }];
+  //       });
+  //       setDataPatient(newDataTemp.reverse());
+  //       setDataForSearch(newDataTemp.reverse())
+  //     })
+  //     .catch(function (error) {
+  //       if (error.response.status === 401) {
+  //         logout();
+  //         message.error("Sesi telah habis, silahkan login kembali");
+  //         history.replace("/");
+  //       }
+  //       setLoading(false);
+  //     });
+  // }, []);
 
 
   const deletePasien = (val) => {
@@ -70,7 +74,7 @@ function Patient() {
         }, 1500);
       })
       .catch(function (error) {
-        toast.error('Menghapus Pasien Gagal', {
+        toast.error('Menghapus User Gagal', {
           position: "top-center",
           autoClose: 1500,
           hideProgressBar: false,
@@ -86,19 +90,19 @@ function Patient() {
 
   // table
   const columns = [
-    {
-      title: "Id",
-      dataIndex: "medicNumber",
-      key: "medicNumber",
-      render: (text) => <Link>{text}</Link>,
-    },
+    // {
+    //   title: "Id",
+    //   dataIndex: "medicNumber",
+    //   key: "medicNumber",
+    //   render: (text) => <Link>{text}</Link>,
+    // },
     {
       title: "Nama",
       dataIndex: "name",
       key: "name",
     },
     {
-      title: "Gender",
+      title: "Email",
       dataIndex: "gender",
       key: "gender",
     },
@@ -132,10 +136,10 @@ function Patient() {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <Link to={`/pasien/detail-pasien/${record.key}`}>
+          <Link to={`/user/detail-user/${record.key}`}>
             <AiFillEye className={styles.iconActionView} />
           </Link>
-          <Link to={`/pasien/edit-pasien/${record.key}`}>
+          <Link to={`/user/edit-user/${record.key}`}>
             <AiFillEdit className={styles.iconActionEdit} />
           </Link>
           <button onClick={() => deletePasien(record.key)}>
@@ -178,12 +182,12 @@ function Patient() {
       />
       <div className={styles.wrapper}>
         <div className={styles.topWrapper}>
-          <h2 className={styles.pageTitle}>Pasien</h2>
+          <h2 className={styles.pageTitle}>User</h2>
           <Breadcrumbs aria-label="breadcrumb" className={styles.breadcumbs}>
             <Link className={styles.breadActive} underline="hover" color="inherit" to="/dashboard">
               Home
             </Link>
-            <Typography className={styles.breadUnactive}>Pasien</Typography>
+            <Typography className={styles.breadUnactive}>User</Typography>
           </Breadcrumbs>
         </div>
         <div className={styles.UserListContent}>

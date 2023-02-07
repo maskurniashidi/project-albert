@@ -1,12 +1,6 @@
 import { lazy } from "react";
 const Login = lazy(() => import("./pages/Auth/Login/Login"));
 const Dashboard = lazy(() => import("./pages/Dashboard/Dashboard"));
-const DicomView = lazy(() => import("./pages/DicomView/DicomView"));
-
-const Doctor = lazy(() => import("./pages/Doctor/Doctor/Doctor"));
-const AddDoctor = lazy(() => import("./pages/Doctor/AddDoctor/AddDoctor"));
-const DetailDoctor = lazy(() => import("./pages/Doctor/DetailDoctor/DetailDoctor"));
-const EditDoctor = lazy(() => import("./pages/Doctor/EditDoctor/EditDoctor"));
 
 const Patient = lazy(() => import("./pages/Patient/Patient/Patient"));
 const DetailPatient = lazy(() => import("./pages/Patient/DetailPatient/Detailpatient"));
@@ -17,9 +11,10 @@ const Admin = lazy(() => import("./pages/Admin/Admin/Admin"));
 const AddAdmin = lazy(() => import("./pages/Admin/AddAdmin/AddAdmin"));
 const DetailAdmin = lazy(() => import("./pages/Admin/DetailAdmin/DetailAdmin"));
 const EditAdmin = lazy(() => import("./pages/Admin/EditAdmin/EditAdmin"));
-
-const Setting = lazy(() => import("./pages/Settings/pengaturan/Setting"));
 const Profile = lazy(() => import("./pages/Profile/Profile/Profile"));
+
+const AddHistory = lazy(() => import("./pages/History/AddHistory/AddHistory"));
+const History = lazy(() => import("./pages/History/History/History"));
 export const APP_ROUTE = [
   {
     name: "Login",
@@ -43,20 +38,6 @@ export const APP_ROUTE = [
     private: true,
   },
   {
-    name: "DicomView",
-    path: "/lihat-dicom",
-    exact: true,
-    component: DicomView,
-    private: true,
-  },
-  {
-    name: "Doctor",
-    path: "/dokter",
-    exact: true,
-    component: Doctor,
-    private: true,
-  },
-  {
     name: "Patient",
     path: "/user",
     exact: true,
@@ -65,14 +46,14 @@ export const APP_ROUTE = [
   },
   {
     name: "DetailPatient",
-    path: "/pasien/detail-pasien/:id",
+    path: "/user/detail-user/:id",
     exact: true,
     component: DetailPatient,
     private: true,
   },
   {
     name: "EditPatient",
-    path: "/pasien/edit-pasien/:id",
+    path: "/user/edit-user/:id",
     exact: true,
     component: EditPatient,
     private: true,
@@ -85,31 +66,10 @@ export const APP_ROUTE = [
     private: true,
   },
   {
-    name: "AddDoctor",
-    path: "/dokter/tambah-dokter",
-    exact: true,
-    component: AddDoctor,
-    private: true,
-  },
-  {
     name: "AddPatient",
     path: "/user/tambah-user",
     exact: true,
     component: AddPatient,
-    private: true,
-  },
-  {
-    name: "DetailDoctor",
-    path: "/dokter/detail-dokter/:id",
-    exact: true,
-    component: DetailDoctor,
-    private: true,
-  },
-  {
-    name: "EditDoctor",
-    path: "/dokter/edit-dokter/:id",
-    exact: true,
-    component: EditDoctor,
     private: true,
   },
   {
@@ -141,10 +101,17 @@ export const APP_ROUTE = [
     private: true,
   },
   {
-    name: "Setting",
-    path: "/setting",
+    name: "History",
+    path: "/history",
     exact: true,
-    component: Setting,
+    component: History,
+    private: true,
+  },
+  {
+    name: "AddHistory",
+    path: "/history/add-record",
+    exact: true,
+    component: AddHistory,
     private: true,
   },
 ];
