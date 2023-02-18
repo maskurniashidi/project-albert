@@ -4,98 +4,46 @@ import axios from "axios";
 import { logout } from "../../../utils/auth";
 import { Link } from "react-router-dom";
 import styles from "./Patient.module.css";
-import { Input } from "antd";
-import { BASE_API_URL } from "../../../helper/url";
-import { AiFillEye, AiFillDelete, AiFillEdit } from "react-icons/ai";
-import { message, Skeleton, Tooltip, Select, Space, Table, Tag } from "antd";
+import { message, Skeleton, Tooltip, Input, Select, Space, Table, Tag } from "antd";
 import { ToastContainer, toast } from 'react-toastify';
 import DashboardLayout from "../../../layouts/dashboard-layout/DashboardLayout";
 import { Typography, Breadcrumbs } from "@mui/material";
 
 function Patient() {
-  //state
-  const [dataForSearch, setDataForSearch] = useState();
-  const [inputSearch, setInputSearch] = useState("");
-  const history = useHistory();
-  const [dataPatient, setDataPatient] = useState([
+  const [dataUser, setDataUser] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    { userId: 1, key: 1, name: "Albert Kurniawan", gender: "albert@gmail.com", phoneNumber: "6287864132080", tags: ["User"] },
-    { userId: 1, key: 1, name: "User", gender: "user@gmail.com", phoneNumber: "6287861113080", tags: ["User"] }
-  ]);
-  const [loading, setLoading] = useState(false);
-
-  //get all data
-  // useEffect(() => {
-  //   var config = {
-  //     method: "get",
-  //     url: `${BASE_API_URL}/patient`,
-  //   };
-
-  //   axios(config)
-  //     .then(function (response) {
-  //       var newDataTemp = [];
-  //       response.data.map((item) => {
-  //         newDataTemp = [...newDataTemp, { key: item.id, name: item.name, medicNumber: item.medicalRecordNumber, gender: item.gender, phoneNumber: item.phoneNumber, tags: ["Pasien"] }];
-  //       });
-  //       setDataPatient(newDataTemp.reverse());
-  //       setDataForSearch(newDataTemp.reverse())
-  //     })
-  //     .catch(function (error) {
-  //       if (error.response.status === 401) {
-  //         logout();
-  //         message.error("Sesi telah habis, silahkan login kembali");
-  //         history.replace("/");
-  //       }
-  //       setLoading(false);
-  //     });
-  // }, []);
-
-
-  const deletePasien = (val) => {
+  useEffect(() => {
     var config = {
-      method: 'delete',
-      url: `${BASE_API_URL}/patient/${val}`,
+      method: 'get',
+      url: 'https://wild-tan-tadpole-tutu.cyclic.app/admin/users',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem("TOKEN")}`
+      }
     };
 
     axios(config)
       .then(function (response) {
-        toast.success('Menghapus Pasien Berhasil', {
-          position: "top-center",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+        setLoading(false);
+        var newDataTemp = [];
+        (response.data.filter(word => word.role === "user")).map((item) => {
+          newDataTemp = [...newDataTemp, { key: item.id, name: item.fullName, email: item.email, tags: ["User"] }];
         });
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500);
+        setDataUser(newDataTemp);
+
       })
       .catch(function (error) {
-        toast.error('Menghapus User Gagal', {
-          position: "top-center",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        if (error.response.status === 401) {
+          logout();
+        }
+        setLoading(false);
         console.log(error);
       });
-  }
+  }, []);
+
 
   // table
   const columns = [
-    // {
-    //   title: "Id",
-    //   dataIndex: "medicNumber",
-    //   key: "medicNumber",
-    //   render: (text) => <Link>{text}</Link>,
-    // },
     {
       title: "Nama",
       dataIndex: "name",
@@ -103,16 +51,11 @@ function Patient() {
     },
     {
       title: "Email",
-      dataIndex: "gender",
-      key: "gender",
+      dataIndex: "email",
+      key: "email",
     },
     {
-      title: "No Telepon",
-      dataIndex: "phoneNumber",
-      key: "phoneNumber",
-    },
-    {
-      title: "Tags",
+      title: "Role",
       key: "tags",
       dataIndex: "tags",
       render: (_, { tags }) => (
@@ -131,40 +74,25 @@ function Patient() {
         </>
       ),
     },
-    {
-      title: "Action",
-      key: "action",
-      render: (_, record) => (
-        <Space size="middle">
-          <Link to={`/user/detail-user/${record.key}`}>
-            <AiFillEye className={styles.iconActionView} />
-          </Link>
-          <Link to={`/user/edit-user/${record.key}`}>
-            <AiFillEdit className={styles.iconActionEdit} />
-          </Link>
-          <button onClick={() => deletePasien(record.key)}>
-            <AiFillDelete className={styles.iconActionDelete} />
-          </button>
-        </Space>
-      ),
-    },
+    // {
+    //   title: "Action",
+    //   key: "action",
+    //   render: (_, record) => (
+    //     <Space size="middle">
+    //       <Link to={`/user/detail-user/${record.key}`}>
+    //         <AiFillEye className={styles.iconActionView} />
+    //       </Link>
+    //       <Link to={`/user/edit-user/${record.key}`}>
+    //         <AiFillEdit className={styles.iconActionEdit} />
+    //       </Link>
+    //       <button onClick={() => deletePasien(record.key)}>
+    //         <AiFillDelete className={styles.iconActionDelete} />
+    //       </button>
+    //     </Space>
+    //   ),
+    // },
   ];
 
-  const handleInput = (e) => {
-    setInputSearch(e.target.value);
-    var dataSearch = dataForSearch.filter((item) => {
-      return (
-        item
-          .name
-          .toLowerCase()
-          .includes(e.target.value.toLowerCase())
-      )
-    });
-    setDataPatient(dataSearch)
-    if (e.target.value === "") {
-      setDataPatient(dataForSearch)
-    }
-  }
 
   return (
     <DashboardLayout>
@@ -201,7 +129,7 @@ function Patient() {
             </Link>
           </div>
         </div>
-        <div className={styles.statistikContainer}>
+        {/* <div className={styles.statistikContainer}>
           <div className={styles.topInfo}>
             <div className={styles.filterBox}>
               <div className={styles.searchContainer}>
@@ -212,7 +140,7 @@ function Patient() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className={styles.UserListContent}>
           {/* <div className={styles.statistikContainer}>
             <div className={styles.topInfo}>
@@ -229,7 +157,7 @@ function Patient() {
             <Skeleton />
           ) : (
             <div className={styles.tableContainerDoctor}>
-              <Table columns={columns} dataSource={dataPatient} />
+              <Table columns={columns} dataSource={dataUser} />
             </div>
           )}
         </div>

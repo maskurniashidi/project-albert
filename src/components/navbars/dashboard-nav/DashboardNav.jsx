@@ -69,7 +69,7 @@ function DashboardNav() {
               <div className={styles.user}>
                 <FaUserCircle className={styles.navbarAvatar} />
                 {/* <img className={styles.navbarAvatar} src={`http://localhost:3000/${data.profileImage}`} /> */}
-                <NavDropdown className={styles.dropdownContainer} title={<span className={styles.userName}>Albert</span>}>
+                <NavDropdown className={styles.dropdownContainer} title={<span className={styles.userName}></span>}>
                   <NavDropdown.Item href="/profile">Lihat akun</NavDropdown.Item>
                   <NavDropdown.Divider />
                   <NavDropdown.Item onClick={_onLogout}>Keluar</NavDropdown.Item>

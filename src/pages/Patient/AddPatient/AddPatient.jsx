@@ -24,13 +24,7 @@ function TambahPasien(props) {
   const [user, setUser] = useState({
     name: "",
     email: "",
-    phoneNumber: "",
-    gender: "",
-    medicalRecordNumber: "",
-    birthDate: "",
-    address: "",
-    disease: "",
-    note: "",
+    password: "",
   });
 
   //handle change
@@ -41,37 +35,32 @@ function TambahPasien(props) {
     });
   };
 
-  const handleChangeGender = (event) => {
-    setUser({
-      ...user,
-      ["gender"]: event,
-    });
-  };
 
   const addDoctor = () => {
     setLoading(true);
-    var dataBody = new FormData();
-    dataBody.append("name", user.name);
-    dataBody.append("medicalRecordNumber", user.medicalRecordNumber);
-    dataBody.append("birthDate", "unknown");
-    dataBody.append("gender", user.gender);
-    dataBody.append("phoneNumber", user.phoneNumber);
-    dataBody.append("email", user.email);
-    dataBody.append("address", user.address);
-    dataBody.append("disease", user.disease);
-    dataBody.append("note", user.note);
+
+    var data = JSON.stringify({
+      "email": user.email,
+      "password": user.password,
+      "fullName": user.name,
+      "role": "user"
+    });
 
     var config = {
-      method: "post",
-      url: `${BASE_API_URL}/patient`,
-      data: dataBody,
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: 'https://wild-tan-tadpole-tutu.cyclic.app/auth/register',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: data
     };
 
     axios(config)
       .then(function (response) {
         toast.success('Menambahkan User Berhasil', {
           position: "top-center",
-          autoClose: 1500,
+          autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -81,7 +70,7 @@ function TambahPasien(props) {
         });
         setLoading(false);
         setTimeout(() => {
-          history.push("/pasien");
+          history.push("/user");
         }, 1500);
       })
       .catch(function (error) {
@@ -98,6 +87,7 @@ function TambahPasien(props) {
         });
         setLoading(false);
       });
+
   };
 
   return (
@@ -144,13 +134,13 @@ function TambahPasien(props) {
               </label>
               <Input required type="email" name="email" value={user.email} onChange={handleChange} className={styles.formControl} />
             </div>
-            <div className={styles.formGroup}>
+            {/* <div className={styles.formGroup}>
               <label htmlFor="whatsapp" className={styles.formLabel}>
                 No Whatsapp
               </label>
               <Input addonBefore="+62" required type="number" name="phoneNumber" value={user.phoneNumber} onChange={handleChange} className={styles.formControl} />
-            </div>
-            <div className={styles.formGroup}>
+            </div> */}
+            {/* <div className={styles.formGroup}>
               <label htmlFor="gender" className={styles.formLabel}>
                 Jenis Kelamin
               </label>
@@ -158,19 +148,19 @@ function TambahPasien(props) {
                 <Option value="L">Laki-laki</Option>
                 <Option value="P">Perempuan</Option>
               </Select>
-            </div>
+            </div> */}
             <div className={styles.formGroup}>
               <label htmlFor="password" className={styles.formLabel}>
                 Password
               </label>
               <Input.Password required name="password" value={user.password} onChange={handleChange} className={styles.formControl} iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)} />
             </div>
-            <div className={styles.formGroup}>
+            {/* <div className={styles.formGroup}>
               <label htmlFor="password" className={styles.formLabel}>
                 Konfirmasi Password
               </label>
               <Input.Password required name="confirmPassword" value={user.confirmPassword} onChange={handleChange} className={styles.formControl} iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)} />
-            </div>
+            </div> */}
             {/* <div className={styles.msgPwError}>halo</div> */}
             <div className={styles.btnBox}>
               {loading ? (
@@ -179,7 +169,7 @@ function TambahPasien(props) {
                 </button>
               ) : (
                 <button className={styles.btnAdd} onClick={addDoctor}>
-                  Tambah Pasien
+                  Tambah User
                 </button>
               )}
             </div>

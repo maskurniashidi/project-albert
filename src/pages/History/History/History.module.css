@@ -294,3 +294,40 @@
   border-radius: 4px;
   margin-top: 24px !important;
 }
+
+.btnOkModal {
+  background-color: #d70137 !important;
+  border: none;
+}
+
+.recordTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.addDataRecord {
+  background-color: #d70137;
+  padding: 4px 16px;
+  color: #fff;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+
+.historyAction {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.addDataRecordDelete {
+  background-color: #d70137;
+  padding: 4px 16px;
+  color: #fff;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+
+/* .deleteIcon {
+  background-color: #181818;
+} */

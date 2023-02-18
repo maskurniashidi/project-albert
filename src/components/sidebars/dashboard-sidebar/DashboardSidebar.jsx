@@ -33,6 +33,7 @@ function DashboardSidebar() {
   let location = useLocation();
   const [data, setData] = useState()
   const [loading, setLoading] = useState(false)
+  let detailUser = JSON.parse(localStorage.getItem("user"))
 
   // useEffect(() => {
   //   var config = {
@@ -97,31 +98,45 @@ function DashboardSidebar() {
                 </Link>
               )}
             </>
-            {location.pathname.slice(0, 5) === "/user" ? (
-              <Link to="/user" className={styles.linkSidebarActive}>
-                <img src={UserColor1} alt="icon sidebar" className={styles.iconSidebar} />
-                <h5 className={styles.textColor}>User</h5>
-              </Link>
-            ) : (
-              <Link to="/user" className={styles.linkSidebar}>
-                <img src={UserDark1} alt="icon sidebar" className={styles.iconSidebar} />
-                <h5 className={styles.text}>User</h5>
-              </Link>
-            )}
 
-            <>
-              {location.pathname.slice(0, 6) === "/admin" ? (
-                <Link to="/admin" className={styles.linkSidebarActive}>
-                  <img src={UserColor} alt="icon sidebar" className={styles.iconSidebar} />
-                  <h5 className={styles.textColor}>Admin</h5>
-                </Link>
-              ) : (
-                <Link to="/admin" className={styles.linkSidebar}>
-                  <img src={UserDark} alt="icon sidebar" className={styles.iconSidebar} />
-                  <h5 className={styles.text}>Admin</h5>
-                </Link>
-              )}
-            </>
+
+            {
+              detailUser.role !== "user" && <>
+                {location.pathname.slice(0, 5) === "/user" ? (
+                  <Link to="/user" className={styles.linkSidebarActive}>
+                    <img src={UserColor1} alt="icon sidebar" className={styles.iconSidebar} />
+                    <h5 className={styles.textColor}>User</h5>
+                  </Link>
+                ) : (
+                  <Link to="/user" className={styles.linkSidebar}>
+                    <img src={UserDark1} alt="icon sidebar" className={styles.iconSidebar} />
+                    <h5 className={styles.text}>User</h5>
+                  </Link>
+                )}
+              </>
+            }
+
+            {/* {
+              detailUser.role !== "user" && 
+            } */}
+
+            {
+              detailUser.role !== "user" && <>
+                {location.pathname.slice(0, 6) === "/admin" ? (
+                  <Link to="/admin" className={styles.linkSidebarActive}>
+                    <img src={UserColor} alt="icon sidebar" className={styles.iconSidebar} />
+                    <h5 className={styles.textColor}>Admin</h5>
+                  </Link>
+                ) : (
+                  <Link to="/admin" className={styles.linkSidebar}>
+                    <img src={UserDark} alt="icon sidebar" className={styles.iconSidebar} />
+                    <h5 className={styles.text}>Admin</h5>
+                  </Link>
+                )}
+              </>
+            }
+
+
 
 
 

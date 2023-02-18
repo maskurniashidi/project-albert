@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { logout } from "../../../utils/auth";
 import styles from "./MyAccount.module.css";
 import { Skeleton, Input } from "antd";
 
@@ -24,6 +25,9 @@ function MyAccount() {
         setLoading(false)
       })
       .catch(function (error) {
+        if (error.response.status === 401) {
+          logout();
+        }
         console.log(error);
       });
   }, []);

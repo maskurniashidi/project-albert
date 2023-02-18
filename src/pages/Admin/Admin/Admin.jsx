@@ -1,100 +1,53 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-//dependency component
-import { Link, useLocation } from "react-router-dom";
-//my own component
+import { logout } from "../../../utils/auth";
+import { Link } from "react-router-dom";
 import styles from "./Admin.module.css";
 import DashboardLayout from "../../../layouts/dashboard-layout/DashboardLayout";
-//framework component
 import { Typography, Breadcrumbs } from "@mui/material";
 import { Skeleton, Space, Table, Tag, Button, Input, Modal } from "antd";
-import { AiFillEye, AiFillDelete, AiFillEdit } from "react-icons/ai";
-import { BASE_API_URL } from "../../../helper/url"
 import { ToastContainer, toast } from 'react-toastify';
 const { Search } = Input;
 function Admin() {
-    const [data, setData] = useState();
-    const [dataForSearch, setDataForSearch] = useState();
-    const [dataDoctor, setDataDoctor] = useState([
-        { userId: 1, key: 1, name: "Albert Kurniawan", gender: "albert@gmail.com", phoneNumber: "6287864132080", tags: ["Admin"] },
-        { userId: 1, key: 1, name: "Admin", gender: "admin@gmail.com", phoneNumber: "6287861113080", tags: ["Admin"] }
-    ]);
-    const [loading, setLoading] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [inputSearch, setInputSearch] = useState("");
-    const showModal = () => {
-        setIsModalOpen(true);
-    };
-    const handleOk = () => {
-        setIsModalOpen(false);
-    };
-    const handleCancel = () => {
-        setIsModalOpen(false);
-    };
-    // useEffect(() => {
-    //     var config = {
-    //         method: "get",
-    //         url: `${BASE_API_URL}/user`,
-    //     };
+    const [dataAdmin, setDataAdmin] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    //     axios(config)
-    //         .then(function (response) {
-    //             var dataTemp = [];
-    //             var dataFind = response.data.filter((e) => e.roleId === 1);
-    //             dataFind.map((item) => {
-    //                 dataTemp = [...dataTemp, { userId: item.id, key: item.id, name: item.name, gender: item.gender, phoneNumber: item.phoneNumber, tags: ["Admin"] }]
-    //             })
-    //             setData(dataTemp);
-    //             setDataForSearch(dataTemp)
-    //             setLoading(false);
-    //         })
-    //         .catch(function (error) {
-    //             console.log(error);
-    //             setLoading(false);
-    //         });
-    // }, []);
 
-    // delete doctor
-    const deleteDoctor = (val) => {
+    useEffect(() => {
         var config = {
-            method: 'delete',
-            url: `${BASE_API_URL}/user/${val}`,
+            method: 'get',
+            url: 'https://wild-tan-tadpole-tutu.cyclic.app/admin/users',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("TOKEN")}`
+            }
         };
 
         axios(config)
             .then(function (response) {
-                toast.success('Menghapus Admin Berhasil', {
-                    position: "top-center",
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
+                setLoading(false);
+                var newDataTemp = [];
+                (response.data.filter(word => word.role === "admin")).map((item) => {
+                    newDataTemp = [...newDataTemp, { key: item.id, name: item.fullName, email: item.email, tags: ["Admin"] }];
                 });
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1500);
+                setDataAdmin(newDataTemp);
+
             })
             .catch(function (error) {
+                setLoading(false);
+                if (error.response.status === 401) {
+                    logout();
+                }
                 console.log(error);
-                toast.error('Menghapus Admin Gagal', {
-                    position: "top-center",
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                });
             });
-    }
+    }, []);
 
     // table init
     const columns2 = [
-
+        {
+            title: "ID",
+            dataIndex: "key",
+            key: "key",
+        },
         {
             title: "Nama",
             dataIndex: "name",
@@ -102,16 +55,11 @@ function Admin() {
         },
         {
             title: "Email",
-            dataIndex: "gender",
-            key: "gender",
+            dataIndex: "email",
+            key: "email",
         },
         {
-            title: "No Telepon",
-            dataIndex: "phoneNumber",
-            key: "phoneNumber",
-        },
-        {
-            title: "Tags",
+            title: "Role",
             key: "tags",
             dataIndex: "tags",
             render: (_, { tags }) => (
@@ -130,41 +78,41 @@ function Admin() {
                 </>
             ),
         },
-        {
-            title: "Action",
-            key: "action",
-            render: (_, record) => (
-                <Space size="middle">
-                    <Link to={`/admin/detail-admin/${record.key}`}>
-                        <AiFillEye className={styles.iconActionView} />
-                    </Link>
-                    <Link to={`/admin/edit-admin/${record.key}`}>
-                        <AiFillEdit className={styles.iconActionEdit} />
-                    </Link>
-                    <button onClick={() => deleteDoctor(record.userId)}>
-                        <AiFillDelete className={styles.iconActionDelete} />
-                    </button>
-                </Space>
-            ),
-        },
+        // {
+        //     title: "Action",
+        //     key: "action",
+        //     render: (_, record) => (
+        //         <Space size="middle">
+        //             <Link to={`/admin/detail-admin/${record.key}`}>
+        //                 <AiFillEye className={styles.iconActionView} />
+        //             </Link>
+        //             <Link to={`/admin/edit-admin/${record.key}`}>
+        //                 <AiFillEdit className={styles.iconActionEdit} />
+        //             </Link>
+        //             <button onClick={() => deleteDoctor(record.userId)}>
+        //                 <AiFillDelete className={styles.iconActionDelete} />
+        //             </button>
+        //         </Space>
+        //     ),
+        // },
     ];
 
 
-    const handleInput = (e) => {
-        setInputSearch(e.target.value);
-        var dataSearch = dataForSearch.filter((item) => {
-            return (
-                item
-                    .name
-                    .toLowerCase()
-                    .includes(e.target.value.toLowerCase())
-            )
-        });
-        setData(dataSearch)
-        if (e.target.value === "") {
-            setData(dataForSearch)
-        }
-    }
+    // const handleInput = (e) => {
+    //     setInputSearch(e.target.value);
+    //     var dataSearch = dataForSearch.filter((item) => {
+    //         return (
+    //             item
+    //                 .name
+    //                 .toLowerCase()
+    //                 .includes(e.target.value.toLowerCase())
+    //         )
+    //     });
+    //     setData(dataSearch)
+    //     if (e.target.value === "") {
+    //         setData(dataForSearch)
+    //     }
+    // }
 
     return (
         <DashboardLayout>
@@ -206,7 +154,7 @@ function Admin() {
                         </div>
                     </div>
 
-                    <div className={styles.statistikContainer}>
+                    {/* <div className={styles.statistikContainer}>
                         <div className={styles.topInfo}>
                             <div className={styles.filterBox}>
                                 <div className={styles.searchContainer}>
@@ -217,9 +165,9 @@ function Admin() {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                     <div className={styles.tableContainerDoctor}>
-                        <Table columns={columns2} dataSource={dataDoctor} />
+                        <Table columns={columns2} dataSource={dataAdmin} />
                     </div>
                 </div>
             )}

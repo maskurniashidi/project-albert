@@ -24,12 +24,7 @@ function AddAdmin(props) {
     const [user, setUser] = useState({
         name: "",
         email: "",
-        phoneNumber: "",
-        gender: "",
         password: "",
-        confirmPassword: "",
-        role: "",
-        strNumber: "",
     });
 
 
@@ -41,32 +36,24 @@ function AddAdmin(props) {
         });
     };
 
-    const handleChangeGender = (event) => {
-        setUser({
-            ...user,
-            ["gender"]: event,
-        });
-    };
-
     const addDoctor = () => {
         setLoading(true);
-        var dataBody = JSON.stringify({
-            name: user.name,
-            email: user.email,
-            phoneNumber: user.phoneNumber.toString(),
-            gender: user.gender,
-            password: user.password,
-            confirmPassword: user.confirmPassword,
-            role: 1,
+
+        var data = JSON.stringify({
+            "email": user.email,
+            "password": user.password,
+            "fullName": user.name,
+            "role": "admin"
         });
 
         var config = {
-            method: "post",
-            url: `${BASE_API_URL}/user`,
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: 'https://wild-tan-tadpole-tutu.cyclic.app/auth/register',
             headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json'
             },
-            data: dataBody,
+            data: data
         };
 
         axios(config)
@@ -87,6 +74,7 @@ function AddAdmin(props) {
                 }, 1500);
             })
             .catch(function (error) {
+                console.log(error);
                 toast.error('Menambahkan Admin Gagal', {
                     position: "top-center",
                     autoClose: 2000,
@@ -145,13 +133,13 @@ function AddAdmin(props) {
                             </label>
                             <Input required type="email" name="email" value={user.email} onChange={handleChange} className={styles.formControl} />
                         </div>
-                        <div className={styles.formGroup}>
+                        {/* <div className={styles.formGroup}>
                             <label htmlFor="whatsapp" className={styles.formLabel}>
                                 No Whatsapp
                             </label>
                             <Input addonBefore="+62" required type="number" name="phoneNumber" value={user.phoneNumber} onChange={handleChange} className={styles.formControl} />
-                        </div>
-                        <div className={styles.formGroup}>
+                        </div> */}
+                        {/* <div className={styles.formGroup}>
                             <label htmlFor="gender" className={styles.formLabel}>
                                 Jenis Kelamin
                             </label>
@@ -159,19 +147,19 @@ function AddAdmin(props) {
                                 <Option value="L">Laki-laki</Option>
                                 <Option value="P">Perempuan</Option>
                             </Select>
-                        </div>
+                        </div> */}
                         <div className={styles.formGroup}>
                             <label htmlFor="password" className={styles.formLabel}>
                                 Password
                             </label>
                             <Input.Password required name="password" value={user.password} onChange={handleChange} className={styles.formControl} iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)} />
                         </div>
-                        <div className={styles.formGroup}>
+                        {/* <div className={styles.formGroup}>
                             <label htmlFor="password" className={styles.formLabel}>
                                 Konfirmasi Password
                             </label>
                             <Input.Password required name="confirmPassword" value={user.confirmPassword} onChange={handleChange} className={styles.formControl} iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)} />
-                        </div>
+                        </div> */}
                         {/* <div className={styles.msgPwError}>halo</div> */}
                         <div className={styles.btnBox}>
                             {loading ? (
