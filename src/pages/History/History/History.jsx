@@ -532,8 +532,9 @@ function History() {
 
         axios(config)
             .then(function (response) {
-                console.log(response.data[0]);
+                console.log("flow id", response.data[0]);
                 setLoading1(false)
+
                 var config = {
                     method: 'get',
                     url: `https://wild-tan-tadpole-tutu.cyclic.app/flow-sensor/${response.data[0].id}`,
@@ -546,12 +547,14 @@ function History() {
                     .then(function (response) {
                         console.log("flows", response.data.flows);
                         setDataFlowGlobal(response.data.flows);
-                        setDataFlowHistory(response.data.flows.history)
-                        setDataFlowMtbf(response.data.flows.mtbf[0].mtbf)
-                        setDataFlowReliability(response.data.flows.reliability[0].reliability)
-                        setLoading2(false)
+                        setDataFlowHistory(response.data.flows.history);
+                        setDataFlowMtbf(response.data.flows.mtbf);
+                        console.log("tes");
+                        setDataFlowReliability(response.data.flows.reliability);
+                        setLoading2(false);
                     })
                     .catch(function (error) {
+
                         if (error.response.status === 401) {
                             logout();
                         }
@@ -559,9 +562,9 @@ function History() {
                     });
             })
             .catch(function (error) {
-                if (error.response.status === 401) {
-                    logout();
-                }
+                // if (error.response.status === 401) {
+                //     logout();
+                // }
                 console.log(error);
             });
     }, []);
@@ -580,7 +583,8 @@ function History() {
 
         axios(config)
             .then(function (response) {
-                console.log("vib", response.data[0]);
+                console.log("vib id", response.data[0]);
+
                 setLoading3(false)
                 var config = {
                     method: 'get',
@@ -596,22 +600,22 @@ function History() {
                         console.log("history", response.data);
                         setDataVibrationGlobal(response.data.vibrations);
                         setDataVibrationHistory(response.data.vibrations.history);
-                        setDataVibrationMtbf(response.data.vibrations.mtbf[0].mtbf);
-                        setDataVibrationReliability(response.data.vibrations.reliability[0].reliability);
+                        setDataVibrationMtbf(response.data.vibrations.mtbf);
+                        setDataVibrationReliability(response.data.vibrations.reliability);
                         setLoading4(false);
 
                     })
                     .catch(function (error) {
-                        if (error.response.status === 401) {
-                            logout();
-                        }
+                        // if (error.response.status === 401) {
+                        //     logout();
+                        // }
                         console.log(error);
                     });
             })
             .catch(function (error) {
-                if (error.response.status === 401) {
-                    logout();
-                }
+                // if (error.response.status === 401) {
+                //     logout();
+                // }
                 console.log(error);
             });
 
