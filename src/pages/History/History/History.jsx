@@ -549,11 +549,12 @@ function History() {
                         setDataFlowGlobal(response.data.flows);
                         setDataFlowHistory(response.data.flows.history);
                         setDataFlowMtbf(response.data.flows.mtbf);
-                        console.log("tes");
                         setDataFlowReliability(response.data.flows.reliability);
+                        console.log("tes");
                         setLoading2(false);
                     })
                     .catch(function (error) {
+                        console.log(error.response.status)
 
                         if (error.response.status === 401) {
                             logout();
@@ -562,9 +563,10 @@ function History() {
                     });
             })
             .catch(function (error) {
-                // if (error.response.status === 401) {
-                //     logout();
-                // }
+                if (error.response.status === 401) {
+                    logout();
+                }
+                console.log(error.response.status)
                 console.log(error);
             });
     }, []);
@@ -606,16 +608,16 @@ function History() {
 
                     })
                     .catch(function (error) {
-                        // if (error.response.status === 401) {
-                        //     logout();
-                        // }
+                        if (error.response.status === 401) {
+                            logout();
+                        }
                         console.log(error);
                     });
             })
             .catch(function (error) {
-                // if (error.response.status === 401) {
-                //     logout();
-                // }
+                if (error.response.status === 401) {
+                    logout();
+                }
                 console.log(error);
             });
 
@@ -734,7 +736,7 @@ function History() {
                                 return (
                                     <div key={item.id} className={styles.tableDashboardCard}>
                                         <div className={styles.recordTop}>
-                                            <h3 className={styles.dashboardTableTitle}>{item.name}</h3>
+                                            {/* <h3 className={styles.dashboardTableTitle}>{item.name}</h3> */}
                                             {
                                                 detailUser.role !== "user" && (
                                                     <div className={styles.historyAction}>
@@ -751,7 +753,8 @@ function History() {
                                             <thead>
                                                 <tr>
                                                     <th>Duration</th>
-                                                    <th>Time</th>
+                                                    <th>Time Start</th>
+                                                    <th>Time End</th>
                                                     <th>Status</th>
                                                     {
                                                         detailUser.role !== "user" &&
@@ -763,7 +766,8 @@ function History() {
                                                 {item.data.map((dataHistory) => (
                                                     <tr key={dataHistory.id}>
                                                         <td>{dataHistory.duration}</td>
-                                                        <td>{dataHistory.time}</td>
+                                                        <td>{dataHistory.timeStart}</td>
+                                                        <td>{dataHistory.timeEnd}</td>
                                                         <td>{dataHistory.status}</td>
                                                         {
                                                             detailUser.role !== "user" &&
@@ -822,7 +826,8 @@ function History() {
                                             <thead>
                                                 <tr>
                                                     <th>Duration</th>
-                                                    <th>Time</th>
+                                                    <th>Time Start</th>
+                                                    <th>Time End</th>
                                                     <th>Status</th>
                                                     {
                                                         detailUser.role !== "user" &&
@@ -834,7 +839,8 @@ function History() {
                                                 {item.data.map((dataHistory) => (
                                                     <tr key={dataHistory.id}>
                                                         <td>{dataHistory.duration}</td>
-                                                        <td>{dataHistory.time}</td>
+                                                        <td>{dataHistory.timeStart}</td>
+                                                        <td>{dataHistory.timeEnd}</td>
                                                         <td>{dataHistory.status}</td>
                                                         {
                                                             detailUser.role !== "user" &&
