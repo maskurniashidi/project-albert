@@ -15,6 +15,7 @@ import { Carousel } from "react-bootstrap";
 import { Typography, Breadcrumbs } from "@mui/material";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 import { MdSensors } from "react-icons/md";
+import ApexChart from "./ApexChart"
 
 const { Option } = Select;
 
@@ -23,25 +24,28 @@ function Dashboard() {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const [dataFlow, setDataFlow] = useState([{
-    key: 1, duration: 33, time: "01:00:00", status: "Error"
+    key: 1, duration: 33, timeStart: "01:00:00", timeEnd: "09:12:12", status: "Error"
   }, {
-    key: 2, duration: 6, time: "02:43:12", status: "Fixed"
+    key: 2, duration: 6, timeStart: "02:43:12", timeEnd: "09:12:12", status: "Fixed"
   }, {
-    key: 3, duration: 2, time: "11:42:14", status: "Start"
+    key: 3, duration: 2, timeStart: "11:42:14", timeEnd: "09:12:12", status: "Start"
   }, {
-    key: 4, duration: 1, time: "02:12:00", status: "End"
+    key: 4, duration: 1, timeStart: "02:12:00", timeEnd: "09:12:12", status: "End"
   },]);
 
   const [dataVibration, setDataVibration] = useState([{
-    key: 1, duration: 3, time: "10:00:00", status: "Error"
+    key: 1, duration: 3, timeStart: "01:00:00", timeEnd: "10:00:00", status: "Error"
   }, {
-    key: 2, duration: 4, time: "13:23:12", status: "Fixed"
+    key: 2, duration: 4, timeStart: "01:00:00", timeEnd: "13:23:12", status: "Fixed"
   }, {
-    key: 3, duration: 1, time: "12:32:12", status: "Start"
+    key: 3, duration: 1, timeStart: "01:00:00", timeEnd: "12:32:12", status: "Start"
   }, {
-    key: 4, duration: 6, time: "09:12:12", status: "End"
+    key: 4, duration: 6, timeStart: "01:00:00", timeEnd: "09:12:12", status: "End"
   },]);
 
+
+  const [dataY, setDataY] = useState([0, -23, -12, 2, 8, 3, 2, -4, 6, 8, -30, 2, 4, -6, 1, 10, 0, 2, 10, 2, 10, 3, 2, 2])
+  const [dataX, setDataX] = useState(["00.00", "01.00", "02.00", "03.00", "05.00", "06.00", "07.00", "08.00", "09.00", "10.00", "11.00", "12.00", "13.00", "14.00", "15.00", "16.00", "17.00", "18.00", "19.00", "20.00", "21.00", "22.00", "23.00", "24.00"])
   // newDataTemp = [...newDataTemp, { key: item.id, name: item.name, medicNumber: item.medicalRecordNumber, gender: item.gender, phoneNumber: item.phoneNumber, tags: ["Pasien"] }];
 
   // table
@@ -53,9 +57,14 @@ function Dashboard() {
       render: (text) => <Link>{text}</Link>,
     },
     {
-      title: "Time",
-      dataIndex: "time",
-      key: "time",
+      title: "Time Start",
+      dataIndex: "timeStart",
+      key: "timeStart",
+    },
+    {
+      title: "Time End",
+      dataIndex: "timeEnd",
+      key: "timeEnd",
     },
     {
       title: "Status",
@@ -72,9 +81,14 @@ function Dashboard() {
       render: (text) => <Link>{text}</Link>,
     },
     {
-      title: "Time",
-      dataIndex: "time",
-      key: "time",
+      title: "Time Start",
+      dataIndex: "timeStart",
+      key: "timeStart",
+    },
+    {
+      title: "Time End",
+      dataIndex: "timeEnd",
+      key: "timeEnd",
     },
     {
       title: "Status",
@@ -150,10 +164,12 @@ function Dashboard() {
 
                 <div className={styles.tableDashboardCard}>
                   <h3 className={styles.dashboardTableTitle}>Record 1</h3>
+                  <ApexChart data={dataY} categories={dataX} className={styles.dashboardChart} />
                   <Table columns={columnsFlow} dataSource={dataFlow} pagination={false} />
                 </div>
                 <div className={styles.tableDashboardCard}>
                   <h3 className={styles.dashboardTableTitle}>Record 2</h3>
+                  <ApexChart data={dataY} categories={dataX} className={styles.dashboardChart} />
                   <Table columns={columnsFlow} dataSource={dataFlow} pagination={false} />
                 </div>
                 {/* <div className={styles.tableDashboardCard}>
@@ -203,10 +219,12 @@ function Dashboard() {
 
                 <div className={styles.tableDashboardCard}>
                   <h3 className={styles.dashboardTableTitle}>Record 1</h3>
+                  <ApexChart data={dataY} categories={dataX} className={styles.dashboardChart} />
                   <Table columns={columnsVibration} dataSource={dataVibration} pagination={false} />
                 </div>
                 <div className={styles.tableDashboardCard}>
                   <h3 className={styles.dashboardTableTitle}>Record 2</h3>
+                  <ApexChart data={dataY} categories={dataX} className={styles.dashboardChart} />
                   <Table columns={columnsVibration} dataSource={dataVibration} pagination={false} />
                 </div>
                 {/* <div className={styles.tableDashboardCard}>

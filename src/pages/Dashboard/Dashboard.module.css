@@ -283,3 +283,7 @@
   font-weight: 700;
   line-height: 20px;
 }
+
+.dashboardChart {
+  margin-top: 24px !important;
+}
