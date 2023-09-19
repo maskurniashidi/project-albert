@@ -15,8 +15,9 @@
 }
 
 .maskotImage {
-  width: 200px;
+  width: 400px;
   height: auto;
+  margin-top: 24px;
 }
 
 .leftContent {

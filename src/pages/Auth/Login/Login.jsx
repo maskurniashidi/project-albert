@@ -6,7 +6,8 @@ import { login } from "../../../utils/auth";
 import { EyeInvisibleOutlined, EyeTwoTone } from "../../../assets/assets";
 import ReactLoading from "react-loading";
 import { Input, message, Alert } from "antd";
-
+import LogoLogin from "../../../assets/logo-its.png"
+import LogoNav from "../../../assets/logo-its.png"
 function Login(props) {
   //state
   const [openAlert, setOpenAlert] = useState(false);
@@ -65,9 +66,8 @@ function Login(props) {
       <LoginNav />
       <div className={styles.content}>
         <div className={styles.leftContent}>
-          <h1 className={styles.title}>Project Albert</h1>
-          <p className={styles.description}>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nam nulla sequi rerum blanditiis vero. Temporibus aliquam veritatis voluptas quos nobis!</p>
-          <img src={"https://www.pngmart.com/files/21/Internet-Of-Things-IOT-Vector-PNG-Picture.png"} alt="maskot kurir" className={styles.maskotImage} />
+          <h1 className={styles.title}>RCM Project</h1>
+          <img src={LogoLogin} alt="maskot kurir" className={styles.maskotImage} />
         </div>
         <div className={styles.rightContent}>
           <div className={styles.formGroup}>

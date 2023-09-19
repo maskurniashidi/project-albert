@@ -287,3 +287,11 @@
 .dashboardChart {
   margin-top: 24px !important;
 }
+
+.btnOkModal {
+  background: red;
+}
+
+.banner {
+  margin-top: 24px;
+}

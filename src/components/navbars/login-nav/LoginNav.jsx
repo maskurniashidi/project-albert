@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 import styles from "./LoginNav.module.css";
 import { LogoText, AiFillFacebook, AiFillTwitterCircle, AiFillInstagram } from "../../../assets/assets";
 import DistyLogo from "../../../assets/images/disty-logo.png";
-
+import LogoNav from "../../../assets/logo-its.png"
 function LoginNav() {
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
         <Link to="/">
-          <img src="https://www.sothink.com/product/logo-maker/images/edit-logo-text/template-logo.png" alt="logo bantubantuin" className={styles.logonav} />
+          <img src={LogoNav} alt="logo bantubantuin" className={styles.logonav} />
         </Link>
         <div className={styles.infoNav}>
           <a target="_blank" href="https://google.com" className={styles.linkNav}>

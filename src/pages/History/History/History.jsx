@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { logout } from "../../../utils/auth";
-import { message, Skeleton, Tooltip, Select, Space, Tag, Input, Pagination, Button, Modal, TimePicker } from "antd";
+import { message, Skeleton, Tooltip, Select, Space, Tag, Input, Pagination, Button, Modal, TimePicker, DatePicker } from "antd";
 import { BASE_API_URL } from "../../../helper/url";
 import dayjs from 'dayjs';
+import moment from 'moment';
 //dependency component
 import { Link } from "react-router-dom";
 //my own component
@@ -25,6 +26,8 @@ const { Option } = Select;
 const { confirm } = Modal;
 function History() {
     let detailUser = JSON.parse(localStorage.getItem("user"))
+    const [flowVal, setFlowVal] = useState()
+    const [vibVal, setVibVal] = useState()
     // state loading
     const [loading1, setLoading1] = useState(true);
     const [loading2, setLoading2] = useState(true);
@@ -56,13 +59,15 @@ function History() {
     const [inputRecordFlow, setInputRecordFlow] = useState(null)
     const [inputDataRecordFlow, setInputDataRecordFlow] = useState({
         duration: null,
-        time: "",
+        timeStart: "",
+        timeEnd: "",
         status: ""
     })
     const [inputRecordVib, setInputRecordVib] = useState(null)
     const [inputDataRecordVib, setInputDataRecordVib] = useState({
         duration: null,
-        time: "",
+        timeStart: "",
+        timeEnd: "",
         status: ""
     })
 
@@ -99,6 +104,54 @@ function History() {
             setInputDataRecordVib({ ...inputDataRecordVib, [e.target.name]: e.target.value })
         }
     }
+
+    const onChangeTimeStartFlow = (value, dateString) => {
+        console.log('Selected Time: ', value);
+        console.log('Formatted Selected Time: ', dateString);
+        setInputDataRecordFlow({ ...inputDataRecordFlow, ["timeStart"]: dateString })
+
+
+        // Menghitung timeEnd berdasarkan duration dan timeStart
+        if (inputDataRecordFlow.duration && dateString) {
+            const durationInHours = parseInt(inputDataRecordFlow.duration) * 60; // Konversi duration dari jam ke menit
+            const timeStart = new Date(dateString); // Menggunakan objek Date bawaan JavaScript untuk manipulasi tanggal dan waktu
+            const timeEnd = new Date(timeStart.getTime() + durationInHours * 60000); // Menambahkan duration ke timeStart
+            setInputDataRecordFlow({ ...inputDataRecordFlow, ["timeEnd"]: timeEnd.toISOString() });
+            console.log("end", timeEnd.toISOString())
+        }
+
+    };
+
+
+    const onChangeTimeEndFlow = (value, dateString) => {
+        console.log('Selected Time: ', value);
+        console.log('Formatted Selected Time: ', dateString);
+        setInputDataRecordFlow({ ...inputDataRecordFlow, ["timeEnd"]: dateString })
+    };
+
+    const onChangeTimeStartVib = (value, dateString) => {
+        console.log('Selected Time: ', value);
+        console.log('Formatted Selected Time: ', dateString);
+        setInputDataRecordVib({ ...inputDataRecordVib, ["timeStart"]: dateString })
+
+
+        // Menghitung timeEnd berdasarkan duration dan timeStart
+        if (inputDataRecordVib.duration && dateString) {
+            const durationInHours = inputDataRecordVib.duration * 60; // Konversi duration dari jam ke menit
+            const timeStart = new Date(dateString); // Menggunakan objek Date bawaan JavaScript untuk manipulasi tanggal dan waktu
+            const timeEnd = new Date(timeStart.getTime() + durationInHours * 60000); // Menambahkan duration ke timeStart
+            setInputDataRecordVib({ ...inputDataRecordVib, ["timeEnd"]: timeEnd.toISOString() });
+            console.log("end", timeEnd.toISOString())
+        }
+
+    };
+
+
+    const onChangeTimeEndVib = (value, dateString) => {
+        console.log('Selected Time: ', value);
+        console.log('Formatted Selected Time: ', dateString);
+        setInputDataRecordVib({ ...inputDataRecordVib, ["timeEnd"]: dateString })
+    };
 
     const onChangeStatusVibration = (key, value) => {
         setInputDataRecordVib({ ...inputDataRecordVib, [key]: value });
@@ -232,9 +285,11 @@ function History() {
             // alert("data record flow ditambahkan", idDataHistory)
             var dataBody = JSON.stringify({
                 "duration": parseInt(inputDataRecordFlow.duration),
-                "time": inputDataRecordFlow.time,
+                "timeStart": inputDataRecordFlow.timeStart,
+                "timeEnd": inputDataRecordFlow.timeEnd,
                 "status": inputDataRecordFlow.status
             });
+
 
             var config = {
                 method: 'post',
@@ -277,7 +332,8 @@ function History() {
         } else if (typeModal === "add data record vibration") {
             var dataBody = JSON.stringify({
                 "duration": parseInt(inputDataRecordVib.duration),
-                "time": inputDataRecordVib.time,
+                "timeStart": inputDataRecordVib.timeStart,
+                "timeEnd": inputDataRecordVib.timeEnd,
                 "status": inputDataRecordVib.status
             });
 
@@ -533,6 +589,7 @@ function History() {
         axios(config)
             .then(function (response) {
                 console.log("flow id", response.data[0]);
+                setFlowVal(response.data[0].value)
                 setLoading1(false)
 
                 var config = {
@@ -586,7 +643,7 @@ function History() {
         axios(config)
             .then(function (response) {
                 console.log("vib id", response.data[0]);
-
+                setVibVal(response.data[0].value)
                 setLoading3(false)
                 var config = {
                     method: 'get',
@@ -685,13 +742,17 @@ function History() {
                             <div>
                                 <label style={{ marginBottom: 8 }} htmlFor="">Duration</label>
                                 <Input style={{ marginBottom: 8 }} name="duration" type="number" value={inputDataRecordFlow.duration} onChange={(e) => onChangeFlow(e, "add data record flow")} />
-                                <label style={{ marginBottom: 8 }} htmlFor="">Time</label>
-                                <TimePicker style={{ marginBottom: 8, display: "block" }} name="time" onChange={onChangeDurationFlow} defaultOpenValue={dayjs('00:00:00', 'HH:mm:ss')} />
+                                <label style={{ marginBottom: 8 }} htmlFor="">Time Start</label>
+                                <DatePicker style={{ marginBottom: 8, display: "block" }} name="timeStart" onChange={onChangeTimeStartFlow} showTime />
+                                <label style={{ marginBottom: 8 }} htmlFor="">Time End</label>
+                                <DatePicker style={{ marginBottom: 8, display: "block" }} name="timeEnd" onChange={onChangeTimeEndFlow} showTime />
                                 <label style={{ marginBottom: 8 }} htmlFor="">Status</label>
                                 <Select style={{ marginBottom: 8, display: "block" }} name="status" value={inputDataRecordFlow.status} onChange={(value) => onChangeStatusFlow('status', value)} defaultValue="">
                                     <Option value="START">START</Option>
                                     <Option value="ERROR">ERROR</Option>
-                                    <Option value="SUCCESS">SUCCESS</Option>
+                                    <Option value="NORMAL">NORMAL</Option>
+                                    <Option value="FAILURE">FAILURE</Option>
+                                    <Option value="FINISH">FINISH</Option>
                                 </Select>
                             </div>
                         )}
@@ -700,13 +761,17 @@ function History() {
                             <div>
                                 <label style={{ marginBottom: 8 }} htmlFor="">Duration</label>
                                 <Input style={{ marginBottom: 8 }} name="duration" type="number" value={inputDataRecordVib.duration} onChange={(e) => onChangeVibration(e, "add data record vibration")} />
-                                <label style={{ marginBottom: 8 }} htmlFor="">Time</label>
-                                <TimePicker style={{ marginBottom: 8, display: "block" }} name="time" onChange={onChangeDurationVibration} defaultOpenValue={dayjs('00:00:00', 'HH:mm:ss')} />
+                                <label style={{ marginBottom: 8 }} htmlFor="">Time Start</label>
+                                <DatePicker style={{ marginBottom: 8, display: "block" }} name="timeStart" onChange={onChangeTimeStartVib} showTime />
+                                <label style={{ marginBottom: 8 }} htmlFor="">Time End</label>
+                                <DatePicker style={{ marginBottom: 8, display: "block" }} name="timeEnd" onChange={onChangeTimeEndVib} showTime />
                                 <label style={{ marginBottom: 8 }} htmlFor="">Status</label>
                                 <Select style={{ marginBottom: 8, display: "block" }} name="status" value={inputDataRecordVib.status} onChange={(value) => onChangeStatusVibration('status', value)} defaultValue="">
                                     <Option value="START">START</Option>
                                     <Option value="ERROR">ERROR</Option>
-                                    <Option value="SUCCESS">SUCCESS</Option>
+                                    <Option value="NORMAL">NORMAL</Option>
+                                    <Option value="FAILURE">FAILURE</Option>
+                                    <Option value="FINISH">FINISH</Option>
                                 </Select>
                             </div>
                         )}
@@ -719,7 +784,7 @@ function History() {
                             <div className={styles.divider}></div>
 
                             <div className={styles.sensorBox}>
-                                <h2 className={styles.sensorValue}>75</h2>
+                                <h2 className={styles.sensorValue}>{flowVal}</h2>
                                 <MdSensors className={styles.sensorIcon} />
                             </div>
 
@@ -793,7 +858,7 @@ function History() {
                             <div className={styles.divider}></div>
 
                             <div className={styles.sensorBox}>
-                                <h2 className={styles.sensorValue}>71</h2>
+                                <h2 className={styles.sensorValue}>{vibVal}</h2>
                                 <MdSensors className={styles.sensorIcon} />
                             </div>
 
