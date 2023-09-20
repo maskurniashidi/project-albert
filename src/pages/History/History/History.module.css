@@ -139,6 +139,12 @@
   color: #d70137;
 }
 
+.dashboardTitleContainer{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .dashboardKeuanganTitle {
   font-size: 18px;
   display: block;
@@ -146,6 +152,19 @@
   font-weight: 700;
   line-height: 20px;
 }
+
+.editTitleArea{
+  background-color: #d70137;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 4px;
+  margin-left: 10px;
+}
+
+.editTitle{
+  font-size: 24px;
+}
+
 
 .dashboardKeuanganDesc {
   margin-top: 4px;
