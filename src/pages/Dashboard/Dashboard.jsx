@@ -21,6 +21,8 @@ const { Option } = Select;
 
 function Dashboard() {
   //state
+  const [allDataFlow, setAllDataFlow] = useState();
+  const [allDataVibration, setAllDataVibration] = useState();
   const [visible, setVisible] = useState(false);
   const [visible2, setVisible2] = useState(false);
   const [idFlow, setIdFlow] = useState()
@@ -125,6 +127,7 @@ function Dashboard() {
     axios(config)
       .then(function (response) {
         console.log("flow id", response.data[0]);
+        setAllDataFlow(response.data[0])
         setFlowVal(response.data[0].value)
         setLimit(response.data[0])
         setIdFlow(response.data[0].id)
@@ -155,6 +158,7 @@ function Dashboard() {
     axios(config)
       .then(function (response) {
         console.log("vib id", response.data[0]);
+        setAllDataVibration(response.data[0]);
         setVibVal(response.data[0].value)
         setIdVib(response.data[0].id)
         setLimit2(response.data[0])
@@ -336,8 +340,24 @@ function Dashboard() {
           {/* Kriteria Keuangan */}
           <div className={styles.dashboardKeuanganContainer}>
             <div className={styles.dashboardLeft}>
-              <h3 className={styles.dashboardKeuanganTitle}>FLOW SENSOR</h3>
-              <p className={styles.dashboardKeuanganDesc}>Data flow sensor</p>
+              <div>
+                {
+                  allDataFlow.flowName == null ?
+                    <>
+                        <h3 className={styles.dashboardKeuanganTitle}>
+                          SENSOR
+                        </h3>
+                        <p className={styles.dashboardKeuanganDesc}>Data sensor</p>
+                    </>
+                    :
+                    <>
+                        <h3 className={styles.dashboardKeuanganTitle}>
+                          {`${allDataFlow.flowName.toUpperCase()}`} SENSOR
+                        </h3>
+                        <p className={styles.dashboardKeuanganDesc}>Data {`${allDataFlow.flowName.toLowerCase()}`} sensor</p>
+                    </>
+                }
+              </div>
               <div className={styles.divider}></div>
               <div className={styles.sensorBox}>
                 <h2 className={styles.sensorValue}>{flowVal}</h2>
@@ -396,8 +416,24 @@ function Dashboard() {
                 </div> */}
             </div>
             <div className={styles.dashboardRight}>
-              <h3 className={styles.dashboardKeuanganTitle}>VIBRATION SENSOR</h3>
-              <p className={styles.dashboardKeuanganDesc}>Data vibration Sensor</p>
+              <div>
+                {
+                  allDataVibration.vibrationName == null ?
+                      <>
+                          <h3 className={styles.dashboardKeuanganTitle}>
+                            SENSOR
+                          </h3>
+                          <p className={styles.dashboardKeuanganDesc}>Data sensor</p>
+                      </>
+                      :
+                      <>
+                          <h3 className={styles.dashboardKeuanganTitle}>
+                            {`${allDataVibration.vibrationName.toUpperCase()}`} SENSOR
+                          </h3>
+                          <p className={styles.dashboardKeuanganDesc}>Data {`${allDataVibration.vibrationName.toLowerCase()}`} sensor</p>
+                      </>
+                }
+              </div>
               <div className={styles.divider}></div>
               <div className={styles.sensorBox}>
                 <h2 className={styles.sensorValue}>{vibVal}</h2>
