@@ -320,7 +320,7 @@ function Dashboard() {
             <Link className={styles.breadActive} underline="hover" color="inherit" to="/dashboard">
               Home
             </Link>
-            <Typography className={styles.breadUnactive}>Dashbord</Typography>
+            <Typography className={styles.breadUnactive}>Dashboard</Typography>
           </Breadcrumbs>
         </div>
         <img className={styles.banner} src={Banner} alt="" />
@@ -380,16 +380,18 @@ function Dashboard() {
 
               {/* <h3 className={styles.dashboardTableTitle}>History</h3> */}
 
-              <div className={styles.tableDashboardCard}>
+              {/* <div className={styles.tableDashboardCard} style={{ width: 'auto' }}> */}
+              <div className={styles.tableDashboardCard} style={{ width: '100%' }}>
                 <h3 className={styles.dashboardTableTitle}>Record 1</h3>
-                <ApexChart data={dataY} categories={dataX} className={styles.dashboardChart} />
-                <Table columns={columnsFlow} dataSource={dataFlow} pagination={false} />
+                <ApexChart data={dataY} categories={dataX} className={styles.dashboardChart} width='auto'/>
+                {/* <Table columns={columnsFlow} dataSource={dataFlow} pagination={false}/> */}
               </div>
-              <div className={styles.tableDashboardCard}>
+              {/* <div className={styles.tableDashboardCard} style={{ width: 'auto' }}> */}
+              {/* <div className={styles.tableDashboardCard}>
                 <h3 className={styles.dashboardTableTitle}>Record 2</h3>
-                <ApexChart data={dataY} categories={dataX} className={styles.dashboardChart} />
-                <Table columns={columnsFlow} dataSource={dataFlow} pagination={false} />
-              </div>
+                <ApexChart data={dataY} categories={dataX} className={styles.dashboardChart}/>
+                <Table columns={columnsFlow} dataSource={dataFlow} pagination={false}/>
+              </div> */}
               {/* <div className={styles.tableDashboardCard}>
                   <h3 className={styles.dashboardTableTitle}>Record 2</h3>
                   <Table columns={columns} dataSource={dataPatient} />
@@ -442,16 +444,16 @@ function Dashboard() {
 
               </div>
 
-              <div className={styles.tableDashboardCard}>
+              <div className={styles.tableDashboardCard} style={{ width: '100%' }}>
                 <h3 className={styles.dashboardTableTitle}>Record 1</h3>
-                <ApexChart data={dataY} categories={dataX} className={styles.dashboardChart} />
-                <Table columns={columnsVibration} dataSource={dataVibration} pagination={false} />
+                <ApexChart data={dataY} categories={dataX} className={styles.dashboardChart} width='auto'/>
+                {/* <Table columns={columnsVibration} dataSource={dataVibration} pagination={false} /> */}
               </div>
-              <div className={styles.tableDashboardCard}>
+              {/* <div className={styles.tableDashboardCard} style={{ width: '100%' }}>
                 <h3 className={styles.dashboardTableTitle}>Record 2</h3>
-                <ApexChart data={dataY} categories={dataX} className={styles.dashboardChart} />
+                <ApexChart data={dataY} categories={dataX} className={styles.dashboardChart} width={'auto'}/>
                 <Table columns={columnsVibration} dataSource={dataVibration} pagination={false} />
-              </div>
+              </div> */}
               {/* <div className={styles.tableDashboardCard}>
                   <h3 className={styles.dashboardTableTitle}>Record 2</h3>
                   <Table columns={columns} dataSource={dataPatient} />
