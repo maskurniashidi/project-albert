@@ -17,6 +17,7 @@ import { Carousel } from "react-bootstrap";
 import { Typography, Breadcrumbs } from "@mui/material";
 import { AiOutlineQuestionCircle, AiFillDelete } from "react-icons/ai";
 import { MdSensors } from "react-icons/md";
+import { FiEdit } from "react-icons/fi";
 import { Table } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import { ExclamationCircleFilled } from '@ant-design/icons';
@@ -27,7 +28,9 @@ const { confirm } = Modal;
 function History() {
     let detailUser = JSON.parse(localStorage.getItem("user"))
     const [flowVal, setFlowVal] = useState()
+    const [flowId, setFlowId] = useState()
     const [vibVal, setVibVal] = useState()
+    const [vibId, setVibId] = useState()
     // state loading
     const [loading1, setLoading1] = useState(true);
     const [loading2, setLoading2] = useState(true);
@@ -36,11 +39,13 @@ function History() {
     // flow
     const [dataFlowGlobal, setDataFlowGlobal] = useState(null);
     const [dataFlowHistory, setDataFlowHistory] = useState([]);
+    const [dataFlowName, setDataFlowName] = useState("");
     const [dataFlowMtbf, setDataFlowMtbf] = useState(null);
     const [dataFlowReliability, setDataFlowReliability] = useState(null);
     // vibration
     const [dataVibrationGlobal, setDataVibrationGlobal] = useState(null);
     const [dataVibrationHistory, setDataVibrationHistory] = useState([]);
+    const [dataVibrationName, setDataVibrationName] = useState("");
     const [dataVibrationMtbf, setDataVibrationMtbf] = useState(null);
     const [dataVibrationReliability, setDataVibrationReliability] = useState(null);
     // Modal
@@ -57,6 +62,7 @@ function History() {
     const [visibleAddDataRecordVib, setVisibleAddDataRecordVib] = useState(false);
     // state input
     const [inputRecordFlow, setInputRecordFlow] = useState(null)
+    const [inputChangeFlowName, setInputChangeFlowName] = useState(null)
     const [inputDataRecordFlow, setInputDataRecordFlow] = useState({
         duration: null,
         timeStart: "",
@@ -64,6 +70,7 @@ function History() {
         status: ""
     })
     const [inputRecordVib, setInputRecordVib] = useState(null)
+    const [inputChangeVibrationName, setInputChangeVibrationName] = useState(null)
     const [inputDataRecordVib, setInputDataRecordVib] = useState({
         duration: null,
         timeStart: "",
@@ -84,6 +91,19 @@ function History() {
         }
         console.log(inputDataRecordFlow);
     }
+
+    const onChangeFlowName = (e, type) => {
+        if (type === "edit flow title") {
+            setInputChangeFlowName(e.target.value)
+        }
+    }
+
+    const onChangeVibrationName = (e, type) => {
+        if (type === "edit vibration title") {
+            setInputChangeVibrationName(e.target.value)
+        }
+    }
+
 
     const onChangeStatusFlow = (key, value) => {
         setInputDataRecordFlow({ ...inputDataRecordFlow, [key]: value });
@@ -173,13 +193,17 @@ function History() {
         setVisible(true);
         console.log(type)
         if (type === "add record flow") {
-            setModalText("Tambahkan Flow Record")
+            setModalText("Tambahkan Record")
         } else if (type === "add record vibration") {
-            setModalText("Tambahkan Vibration Record")
+            setModalText("Tambahkan Record")
         } else if (type === "add data record flow") {
-            setModalText("Tambahkan Data Flow Record")
+            setModalText("Tambahkan Data Record")
         } else if (type === "add data record vibration") {
-            setModalText("Tambahkan Data Vibration Record")
+            setModalText("Tambahkan Data Record")
+        } else if (type === "edit flow title") {
+            setModalText("Ubah Nama Record")
+        } else if (type === "edit vibration title") {
+            setModalText("Ubah Nama Record")
         }
     }
 
@@ -187,7 +211,6 @@ function History() {
         setTypeModal(null);
         setModalText(null);
         setVisible(false);
-
     }
 
     const handleOk = () => {
@@ -220,6 +243,7 @@ function History() {
                         progress: undefined,
                         theme: "light",
                     });
+                    setVisible(false);
                     setTimeout(() => {
                         window.location.reload();
                     }, 1000);
@@ -264,6 +288,7 @@ function History() {
                         progress: undefined,
                         theme: "light",
                     });
+                    setVisible(false);
                     setTimeout(() => {
                         window.location.reload();
                     }, 1000);
@@ -313,6 +338,7 @@ function History() {
                         progress: undefined,
                         theme: "light",
                     });
+                    setVisible(false);
                     setTimeout(() => {
                         window.location.reload();
                     }, 1000);
@@ -359,6 +385,7 @@ function History() {
                         progress: undefined,
                         theme: "light",
                     });
+                    setVisible(false);
                     setTimeout(() => {
                         window.location.reload();
                     }, 1000);
@@ -375,6 +402,99 @@ function History() {
                         theme: "light",
                     });
                 });
+            // }
+        } else if (typeModal === "edit flow title") {            
+            var dataBody = JSON.stringify({
+                "flowName": inputChangeFlowName,
+            });
+
+            var config = {
+                method: 'patch',
+                maxBodyLength: Infinity,
+                url: `https://wild-tan-tadpole-tutu.cyclic.app/flow-sensor/${flowId}/update-flow-name`,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem("TOKEN")}`,
+                },
+                data: dataBody
+            };
+            
+            axios(config)
+            
+            .then(function (response) {
+                toast.success('Record berhasil diubah', {
+                    position: "top-center",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+                setVisible(false);
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            })
+            .catch(function (error) {
+                toast.error('Record gagal diubah', {
+                    position: "top-center",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            });
+        } else if (typeModal === "edit vibration title") {            
+            var dataBody = JSON.stringify({
+                "vibrationName": inputChangeVibrationName,
+            });
+
+            var config = {
+                method: 'patch',
+                maxBodyLength: Infinity,
+                url: `https://wild-tan-tadpole-tutu.cyclic.app/vibration-sensor/${vibId}/update-vibration-name`,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem("TOKEN")}`,
+                },
+                data: dataBody
+            };
+            
+            axios(config)
+            
+            .then(function (response) {
+                toast.success('Record berhasil diubah', {
+                    position: "top-center",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+                setVisible(false);
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            })
+            .catch(function (error) {
+                toast.error('Record gagal diubah', {
+                    position: "top-center",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            });
         }
     }
 
@@ -590,6 +710,7 @@ function History() {
             .then(function (response) {
                 console.log("flow id", response.data[0]);
                 setFlowVal(response.data[0].value)
+                setFlowId(response.data[0].id)
                 setLoading1(false)
 
                 var config = {
@@ -605,6 +726,7 @@ function History() {
                         console.log("flows", response.data.flows);
                         setDataFlowGlobal(response.data.flows);
                         setDataFlowHistory(response.data.flows.history);
+                        setDataFlowName(response.data.flows.flowName)
                         setDataFlowMtbf(response.data.flows.mtbf);
                         setDataFlowReliability(response.data.flows.reliability);
                         console.log("tes");
@@ -644,6 +766,7 @@ function History() {
             .then(function (response) {
                 console.log("vib id", response.data[0]);
                 setVibVal(response.data[0].value)
+                setVibId(response.data[0].id)
                 setLoading3(false)
                 var config = {
                     method: 'get',
@@ -659,6 +782,7 @@ function History() {
                         console.log("history", response.data);
                         setDataVibrationGlobal(response.data.vibrations);
                         setDataVibrationHistory(response.data.vibrations.history);
+                        setDataVibrationName(response.data.vibrations.vibrationName);
                         setDataVibrationMtbf(response.data.vibrations.mtbf);
                         setDataVibrationReliability(response.data.vibrations.reliability);
                         setLoading4(false);
@@ -727,13 +851,13 @@ function History() {
                         </div> */}
                         {typeModal === "add record flow" && (
                             <div>
-                                <label style={{ marginBottom: 8 }} htmlFor="">Flow Record Name</label>
+                                <label style={{ marginBottom: 8 }} htmlFor="">Record Name</label>
                                 <Input value={inputRecordFlow} onChange={(e) => onChangeFlow(e, "add record flow")} />
                             </div>
                         )}
                         {typeModal === "add record vibration" && (
                             <div>
-                                <label style={{ marginBottom: 8 }} htmlFor="">Vibration Record Name</label>
+                                <label style={{ marginBottom: 8 }} htmlFor="">Record Name</label>
                                 <Input value={inputRecordVib} onChange={(e) => onChangeVibration(e, "add record vibration")} />
                             </div>
                         )}
@@ -775,12 +899,52 @@ function History() {
                                 </Select>
                             </div>
                         )}
+                        {typeModal === "edit flow title" && (
+                            <div>
+                                <label style={{ marginBottom: 8 }} htmlFor="">Ubah Nama</label>
+                                {/* <Input value={inputChangeFlowName} onChange={(e) => onChangeFlowName(e, "edit flow title")} /> */}
+                                {/* <Input onChange={(e) => onChangeFlowName(e, "edit flow title")} /> */}
+                                <Input placeholder={dataFlowName} onChange={(e) => onChangeFlowName(e, "edit flow title")} />
+                                {/* <Input value={dataFlowName} onChange={(e) => onChangeFlowName(e.target.value)} /> */}
+                            </div>
+                        )}
+                        {typeModal === "edit vibration title" && (
+                            <div>
+                                <label style={{ marginBottom: 8 }} htmlFor="">Ubah Nama</label>
+                                <Input placeholder={dataVibrationName} onChange={(e) => onChangeVibrationName(e, "edit vibration title")} />
+                            </div>
+                        )}
                     </Modal>
                     {/* Kriteria Keuangan */}
                     <div className={styles.dashboardKeuanganContainer}>
                         <div className={styles.dashboardLeft}>
-                            <h3 className={styles.dashboardKeuanganTitle}>HISTORY FLOW SENSOR</h3>
-                            <p className={styles.dashboardKeuanganDesc}>Data history flow sensor yang tercatat</p>
+                            <div className={styles.dashboardTitleContainer}>
+                                <div>
+                                    {
+                                        dataFlowName == null ?
+                                            <>
+                                                <h3 className={styles.dashboardKeuanganTitle}>
+                                                    HISTORY
+                                                </h3>
+                                                <p className={styles.dashboardKeuanganDesc}>Data history yang tercatat</p>
+                                            </>
+                                            :
+                                            <>
+                                                <h3 className={styles.dashboardKeuanganTitle}>
+                                                    HISTORY {dataFlowName.toUpperCase()}
+                                                </h3>
+                                                <p className={styles.dashboardKeuanganDesc}>Data history {`${dataFlowName.toLowerCase()}`} yang tercatat</p>
+                                            </>
+                                    }
+                                </div>
+
+                                {
+                                    detailUser.role !== "user" && 
+                                        <button onClick={() => showModal("edit flow title")} className={styles.editTitleArea}>
+                                            <FiEdit className={styles.editTitle}/>
+                                        </button>
+                                }
+                            </div>
                             <div className={styles.divider}></div>
 
                             <div className={styles.sensorBox}>
@@ -801,7 +965,7 @@ function History() {
                                 return (
                                     <div key={item.id} className={styles.tableDashboardCard}>
                                         <div className={styles.recordTop}>
-                                            {/* <h3 className={styles.dashboardTableTitle}>{item.name}</h3> */}
+                                            <h3 className={styles.dashboardTableTitle}>{item.name}</h3>
                                             {
                                                 detailUser.role !== "user" && (
                                                     <div className={styles.historyAction}>
@@ -853,8 +1017,33 @@ function History() {
                             </div> */}
                         </div>
                         <div className={styles.dashboardRight}>
-                            <h3 className={styles.dashboardKeuanganTitle}>HISTORY VIBRATION SENSOR</h3>
-                            <p className={styles.dashboardKeuanganDesc}>Data history vibration Sensor</p>
+                            <div className={styles.dashboardTitleContainer}>
+                                <div>
+                                    {
+                                        dataVibrationName == null ?
+                                            <>
+                                                <h3 className={styles.dashboardKeuanganTitle}>
+                                                    HISTORY
+                                                </h3>
+                                                <p className={styles.dashboardKeuanganDesc}>Data history yang tercatat</p>
+                                            </>
+                                            :
+                                            <>
+                                                <h3 className={styles.dashboardKeuanganTitle}>
+                                                    HISTORY {dataVibrationName.toUpperCase()}
+                                                </h3>
+                                                <p className={styles.dashboardKeuanganDesc}>Data history {`${dataVibrationName.toLowerCase()}`} yang tercatat</p>
+                                            </>
+                                    }
+                                </div>
+
+                                {
+                                    detailUser.role !== "user" && 
+                                        <button onClick={() => showModal("edit vibration title")} className={styles.editTitleArea}>
+                                            <FiEdit className={styles.editTitle}/>
+                                        </button>
+                                }
+                            </div>
                             <div className={styles.divider}></div>
 
                             <div className={styles.sensorBox}>

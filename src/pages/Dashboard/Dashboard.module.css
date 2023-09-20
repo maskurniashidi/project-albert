@@ -24,11 +24,28 @@
   color: #181818;
 }
 
+.wrapper {
+}
+
+.chartArea{
+  /* width: 100%; */
+}
+
+.innerChart{
+  /* width: auto; */
+}
+
 /* main */
 .carouselWrapper {
   border-radius: 16px;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
+
+.banner {
+  margin-top: 24px;
+  width: 100%;
+}
+
 .main {
   margin-top: 24px;
 }
@@ -290,8 +307,4 @@
 
 .btnOkModal {
   background: red;
-}
-
-.banner {
-  margin-top: 24px;
 }

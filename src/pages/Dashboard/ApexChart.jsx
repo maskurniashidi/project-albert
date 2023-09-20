@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
+import styles from "./Dashboard.module.css";
 
 function ApexChart({ title, data, categories }) {
     const [state, setState] = useState({
@@ -40,8 +41,8 @@ function ApexChart({ title, data, categories }) {
     });
 
     return (
-        <div id="chart">
-            <ReactApexChart options={state.options} series={state.series} type="line" height={350} />
+        <div id="chart" className={styles.chartArea}>
+            <ReactApexChart options={state.options} series={state.series} type="line"/>
         </div>
     );
 }
