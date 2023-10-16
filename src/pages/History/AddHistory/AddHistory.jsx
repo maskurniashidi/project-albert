@@ -118,12 +118,12 @@ function AddHistory(props) {
         setDataSource(newData);
     };
     const defaultColumns = [
-        {
-            title: 'Duration',
-            dataIndex: 'name',
-            width: '30%',
-            editable: true,
-        },
+        // {
+        //     title: 'Duration',
+        //     dataIndex: 'name',
+        //     width: '30%',
+        //     editable: true,
+        // },
         {
             title: 'Time',
             dataIndex: 'age',
@@ -148,7 +148,7 @@ function AddHistory(props) {
     const handleAdd = () => {
         const newData = {
             key: count,
-            name: 'Add Duration',
+            // name: 'Add Duration',
             age: 'Add Time',
             address: `Add Status`,
         };

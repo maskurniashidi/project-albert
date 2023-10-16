@@ -64,7 +64,7 @@ function History() {
     const [inputRecordFlow, setInputRecordFlow] = useState(null)
     const [inputChangeFlowName, setInputChangeFlowName] = useState(null)
     const [inputDataRecordFlow, setInputDataRecordFlow] = useState({
-        duration: null,
+        // duration: null,
         timeStart: "",
         timeEnd: "",
         status: ""
@@ -72,7 +72,7 @@ function History() {
     const [inputRecordVib, setInputRecordVib] = useState(null)
     const [inputChangeVibrationName, setInputChangeVibrationName] = useState(null)
     const [inputDataRecordVib, setInputDataRecordVib] = useState({
-        duration: null,
+        // duration: null,
         timeStart: "",
         timeEnd: "",
         status: ""
@@ -89,7 +89,7 @@ function History() {
         } else if (type === "add data record flow") {
             setInputDataRecordFlow({ ...inputDataRecordFlow, [e.target.name]: e.target.value })
         }
-        console.log(inputDataRecordFlow);
+        console.log('ini `add record flow` ', inputDataRecordFlow);
     }
 
     const onChangeFlowName = (e, type) => {
@@ -132,13 +132,13 @@ function History() {
 
 
         // Menghitung timeEnd berdasarkan duration dan timeStart
-        if (inputDataRecordFlow.duration && dateString) {
-            const durationInHours = parseInt(inputDataRecordFlow.duration) * 60; // Konversi duration dari jam ke menit
-            const timeStart = new Date(dateString); // Menggunakan objek Date bawaan JavaScript untuk manipulasi tanggal dan waktu
-            const timeEnd = new Date(timeStart.getTime() + durationInHours * 60000); // Menambahkan duration ke timeStart
-            setInputDataRecordFlow({ ...inputDataRecordFlow, ["timeEnd"]: timeEnd.toISOString() });
-            console.log("end", timeEnd.toISOString())
-        }
+        // if (inputDataRecordFlow.duration && dateString) {
+        //     const durationInHours = parseInt(inputDataRecordFlow.duration) * 60; // Konversi duration dari jam ke menit
+        //     const timeStart = new Date(dateString); // Menggunakan objek Date bawaan JavaScript untuk manipulasi tanggal dan waktu
+        //     const timeEnd = new Date(timeStart.getTime() + durationInHours * 60000); // Menambahkan duration ke timeStart
+        //     setInputDataRecordFlow({ ...inputDataRecordFlow, ["timeEnd"]: timeEnd.toISOString() });
+        //     console.log("end", timeEnd.toISOString())
+        // }
 
     };
 
@@ -156,13 +156,13 @@ function History() {
 
 
         // Menghitung timeEnd berdasarkan duration dan timeStart
-        if (inputDataRecordVib.duration && dateString) {
-            const durationInHours = inputDataRecordVib.duration * 60; // Konversi duration dari jam ke menit
-            const timeStart = new Date(dateString); // Menggunakan objek Date bawaan JavaScript untuk manipulasi tanggal dan waktu
-            const timeEnd = new Date(timeStart.getTime() + durationInHours * 60000); // Menambahkan duration ke timeStart
-            setInputDataRecordVib({ ...inputDataRecordVib, ["timeEnd"]: timeEnd.toISOString() });
-            console.log("end", timeEnd.toISOString())
-        }
+        // if (inputDataRecordVib.duration && dateString) {
+        //     const durationInHours = inputDataRecordVib.duration * 60; // Konversi duration dari jam ke menit
+        //     const timeStart = new Date(dateString); // Menggunakan objek Date bawaan JavaScript untuk manipulasi tanggal dan waktu
+        //     const timeEnd = new Date(timeStart.getTime() + durationInHours * 60000); // Menambahkan duration ke timeStart
+        //     setInputDataRecordVib({ ...inputDataRecordVib, ["timeEnd"]: timeEnd.toISOString() });
+        //     console.log("end", timeEnd.toISOString())
+        // }
 
     };
 
@@ -309,7 +309,7 @@ function History() {
             console.log("id data his", idDataHistory);
             // alert("data record flow ditambahkan", idDataHistory)
             var dataBody = JSON.stringify({
-                "duration": parseInt(inputDataRecordFlow.duration),
+                // "duration": parseInt(inputDataRecordFlow.duration),
                 "timeStart": inputDataRecordFlow.timeStart,
                 "timeEnd": inputDataRecordFlow.timeEnd,
                 "status": inputDataRecordFlow.status
@@ -357,7 +357,7 @@ function History() {
                 });
         } else if (typeModal === "add data record vibration") {
             var dataBody = JSON.stringify({
-                "duration": parseInt(inputDataRecordVib.duration),
+                // "duration": parseInt(inputDataRecordVib.duration),
                 "timeStart": inputDataRecordVib.timeStart,
                 "timeEnd": inputDataRecordVib.timeEnd,
                 "status": inputDataRecordVib.status
@@ -864,8 +864,8 @@ function History() {
 
                         {typeModal === "add data record flow" && (
                             <div>
-                                <label style={{ marginBottom: 8 }} htmlFor="">Duration</label>
-                                <Input style={{ marginBottom: 8 }} name="duration" type="number" value={inputDataRecordFlow.duration} onChange={(e) => onChangeFlow(e, "add data record flow")} />
+                                {/* <label style={{ marginBottom: 8 }} htmlFor="">Duration</label> */}
+                                {/* <Input style={{ marginBottom: 8 }} name="duration" type="number" value={inputDataRecordFlow.duration} onChange={(e) => onChangeFlow(e, "add data record flow")} /> */}
                                 <label style={{ marginBottom: 8 }} htmlFor="">Time Start</label>
                                 <DatePicker style={{ marginBottom: 8, display: "block" }} name="timeStart" onChange={onChangeTimeStartFlow} showTime />
                                 <label style={{ marginBottom: 8 }} htmlFor="">Time End</label>
@@ -875,7 +875,7 @@ function History() {
                                     <Option value="START">START</Option>
                                     <Option value="ERROR">ERROR</Option>
                                     <Option value="NORMAL">NORMAL</Option>
-                                    <Option value="FAILURE">FAILURE</Option>
+                                    <Option value="FAILURE">FAILED</Option>
                                     <Option value="FINISH">FINISH</Option>
                                 </Select>
                             </div>
@@ -883,8 +883,8 @@ function History() {
 
                         {typeModal === "add data record vibration" && (
                             <div>
-                                <label style={{ marginBottom: 8 }} htmlFor="">Duration</label>
-                                <Input style={{ marginBottom: 8 }} name="duration" type="number" value={inputDataRecordVib.duration} onChange={(e) => onChangeVibration(e, "add data record vibration")} />
+                                {/* <label style={{ marginBottom: 8 }} htmlFor="">Duration</label> */}
+                                {/* <Input style={{ marginBottom: 8 }} name="duration" type="number" value={inputDataRecordVib.duration} onChange={(e) => onChangeVibration(e, "add data record vibration")} /> */}
                                 <label style={{ marginBottom: 8 }} htmlFor="">Time Start</label>
                                 <DatePicker style={{ marginBottom: 8, display: "block" }} name="timeStart" onChange={onChangeTimeStartVib} showTime />
                                 <label style={{ marginBottom: 8 }} htmlFor="">Time End</label>
@@ -894,7 +894,7 @@ function History() {
                                     <Option value="START">START</Option>
                                     <Option value="ERROR">ERROR</Option>
                                     <Option value="NORMAL">NORMAL</Option>
-                                    <Option value="FAILURE">FAILURE</Option>
+                                    <Option value="FAILURE">FAILED</Option>
                                     <Option value="FINISH">FINISH</Option>
                                 </Select>
                             </div>
