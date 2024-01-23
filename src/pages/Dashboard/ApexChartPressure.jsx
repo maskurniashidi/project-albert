@@ -80,7 +80,7 @@ function ApexChartPressure({ title, data, categories }) {
         series: [
             {
                 name: title,
-                data: [0, 10, 20, 30, 40, 50, 60]
+                data: []
             },
         ],
         options: {

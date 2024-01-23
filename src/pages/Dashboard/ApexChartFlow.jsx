@@ -21,17 +21,18 @@ function ApexChartFlow({ title, data, categories }) {
     useEffect(() => {
         // const interval = setInterval(() => {
             var config = {
-            method: 'get',
-            maxBodyLength: Infinity,
-            url: 'https://rcm-albert.dhani.cloud/flow-sensor/_1675912783388/values',
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("TOKEN")}`,
-            },
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: 'https://rcm-albert.dhani.cloud/flow-sensor/_1675912783388/values',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("TOKEN")}`,
+                },
             };
             
             axios(config)
             .then(function (response) {
                 setDataGrafik(response.data)
+                // console.log("flow", response);
                 setDataValue(response.data.map((dataz) => dataz.value))
                 setFlowTimeValue(response.data.map((dataz) => Unix(dataz.createdAt._seconds)))
             })
@@ -80,7 +81,7 @@ function ApexChartFlow({ title, data, categories }) {
         series: [
             {
                 name: title,
-                data: [0, 10, 20, 30, 40, 50, 60]
+                data: []
             },
         ],
         options: {
