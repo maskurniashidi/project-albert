@@ -12,7 +12,7 @@ function MyAccount() {
   useEffect(() => {
     var config = {
       method: 'get',
-      url: 'https://wild-tan-tadpole-tutu.cyclic.app/profile/me',
+      url: 'https://rcm-albert.dhani.cloud/profile/me',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem("TOKEN")}`
       }

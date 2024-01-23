@@ -49,7 +49,7 @@ function AddAdmin(props) {
         var config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: 'https://wild-tan-tadpole-tutu.cyclic.app/auth/register',
+            url: 'https://rcm-albert.dhani.cloud/auth/register',
             headers: {
                 'Content-Type': 'application/json'
             },

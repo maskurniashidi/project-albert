@@ -15,7 +15,8 @@ import { Carousel } from "react-bootstrap";
 import { Typography, Breadcrumbs } from "@mui/material";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 import { MdSensors } from "react-icons/md";
-import ApexChart from "./ApexChart"
+import ApexChartFlow from "./ApexChartFlow"
+import ApexChartPressure from "./ApexChartPressure"
 import Banner from "../../assets/banner.png"
 const { Option } = Select;
 
@@ -111,45 +112,78 @@ function Dashboard() {
     },
   ];
 
-
+    // USEEFEECT FLOW
   useEffect(() => {
-    var config = {
-      method: 'get',
-      maxBodyLength: Infinity,
-      url: 'https://wild-tan-tadpole-tutu.cyclic.app/flow-sensor/all',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem("TOKEN")}`,
-      },
-    };
-
-
-
-    axios(config)
-      .then(function (response) {
-        console.log("flow id", response.data[0]);
-        setAllDataFlow(response.data[0])
-        setFlowVal(response.data[0].value)
-        setLimit(response.data[0])
-        setIdFlow(response.data[0].id)
-        setLoading1(false)
-
-      })
-      .catch(function (error) {
-        if (error.response.status === 401) {
-          logout();
-        }
-        console.log(error.response.status)
-        console.log(error);
-      });
+      var config = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url: 'https://rcm-albert.dhani.cloud/flow-sensor/all',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem("TOKEN")}`,
+        },
+      };
+      
+      axios(config)
+        .then(function (response) {
+          console.log("flow id", response.data[0]);
+          setAllDataFlow(response.data[0])
+          setFlowVal(response.data[0].value.toFixed(1))
+          setLimit(response.data[0])
+          setIdFlow(response.data[0].id)
+          setLoading1(false)
+          // console.log('response.data[0]: ', response.data[0].value)
+        })
+        .catch(function (error) {
+          if (error.response.status === 401) {
+            logout();
+          }
+          console.log(error.response.status)
+          console.log(error);
+        });
+        // console.log('flowvalue: ', flowVal)
   }, []);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     var config = {
+  //       method: 'get',
+  //       maxBodyLength: Infinity,
+  //       url: 'https://rcm-albert.dhani.cloud/flow-sensor/all',
+  //       headers: {
+  //         'Authorization': `Bearer ${localStorage.getItem("TOKEN")}`,
+  //       },
+  //     };
+      
+  //     axios(config)
+  //       .then(function (response) {
+  //         console.log("flow id", response.data[0]);
+  //         setAllDataFlow(response.data[0])
+  //         setFlowVal(response.data[0].value.toFixed(1))
+  //         setLimit(response.data[0])
+  //         setIdFlow(response.data[0].id)
+  //         setLoading1(false)
+  //         console.log('response.data[0]: ', response.data[0].value)
+  //       })
+  //       .catch(function (error) {
+  //         if (error.response.status === 401) {
+  //           logout();
+  //         }
+  //         console.log(error.response.status)
+  //         console.log(error);
+  //       });
+  //       // console.log('flowvalue: ', flowVal)
+  //   }, 5000);
+
+  //   console.log('use effect jalan')
+  //   return () => clearInterval(interval);
+  // }, []);
 
 
-
+  // USEEFFECT VIBRA
   useEffect(() => {
     var config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: 'https://wild-tan-tadpole-tutu.cyclic.app/vibration-sensor/all',
+      url: 'https://rcm-albert.dhani.cloud/vibration-sensor/all',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem("TOKEN")}`,
       },
@@ -157,9 +191,9 @@ function Dashboard() {
 
     axios(config)
       .then(function (response) {
-        console.log("vib id", response.data[0]);
+        // console.log("vib id", response.data[0]);
         setAllDataVibration(response.data[0]);
-        setVibVal(response.data[0].value)
+        setVibVal(response.data[0].value.toFixed(1))
         setIdVib(response.data[0].id)
         setLimit2(response.data[0])
         setLoading2(false)
@@ -173,6 +207,59 @@ function Dashboard() {
 
   }, []);
 
+  // USEEFFECT GRAFIK
+  useEffect(() => {
+      var config = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url: 'https://rcm-albert.dhani.cloud/flow-sensor/_1675912783388/values',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem("TOKEN")}`,
+        },
+      };
+      
+      axios(config)
+        .then(function (response) {
+          // console.log("grafik: ", response);
+        })
+        .catch(function (error) {
+          if (error.response.status === 401) {
+            logout();
+          }
+          console.log(error.response.status)
+          console.log(error);
+        });
+        // console.log('flowvalue: ', flowVal)
+  }, []);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     var config = {
+  //       method: 'get',
+  //       maxBodyLength: Infinity,
+  //       url: 'https://rcm-albert.dhani.cloud/flow-sensor/_1675912783388/values',
+  //       headers: {
+  //         'Authorization': `Bearer ${localStorage.getItem("TOKEN")}`,
+  //       },
+  //     };
+      
+  //     axios(config)
+  //       .then(function (response) {
+  //         console.log("grafik: ", response);
+  //       })
+  //       .catch(function (error) {
+  //         if (error.response.status === 401) {
+  //           logout();
+  //         }
+  //         console.log(error.response.status)
+  //         console.log(error);
+  //       });
+  //       // console.log('flowvalue: ', flowVal)
+  //   }, 5000);
+
+  //   console.log('get grafik jalan')
+  //   return () => clearInterval(interval);
+  // }, []);
+
   const EditLimitFlow = () => {
     var dataBody = JSON.stringify({
       "HH": limit.HH,
@@ -184,7 +271,7 @@ function Dashboard() {
 
     var config = {
       method: 'patch',
-      url: `https://wild-tan-tadpole-tutu.cyclic.app/flow-sensor/${idFlow}/update-limit-value`,
+      url: `https://rcm-albert.dhani.cloud/flow-sensor/${idFlow}/update-limit-value`,
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem("TOKEN")}`,
@@ -218,7 +305,7 @@ function Dashboard() {
 
     var config = {
       method: 'patch',
-      url: `https://wild-tan-tadpole-tutu.cyclic.app/vibration-sensor/${idVib}/update-limit-value`,
+      url: `https://rcm-albert.dhani.cloud/vibration-sensor/${idVib}/update-limit-value`,
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem("TOKEN")}`,
@@ -360,6 +447,8 @@ function Dashboard() {
               </div>
               <div className={styles.divider}></div>
               <div className={styles.sensorBox}>
+                {/* <h2 className={styles.sensorValue}>{flowVal == undefined ? '0' : flowVal}</h2> */}
+                {/* <h2 className={styles.sensorValue}>{flowVal}</h2> */}
                 <h2 className={styles.sensorValue}>{flowVal}</h2>
                 <MdSensors className={styles.sensorIcon} />
               </div>
@@ -403,7 +492,7 @@ function Dashboard() {
               {/* <div className={styles.tableDashboardCard} style={{ width: 'auto' }}> */}
               <div className={styles.tableDashboardCard} style={{ width: '100%' }}>
                 <h3 className={styles.dashboardTableTitle}>Record 1</h3>
-                <ApexChart data={dataY} categories={dataX} className={styles.dashboardChart} width='auto'/>
+                <ApexChartFlow data={dataY} categories={dataX} className={styles.dashboardChart} width='auto'/>
                 {/* <Table columns={columnsFlow} dataSource={dataFlow} pagination={false}/> */}
               </div>
               {/* <div className={styles.tableDashboardCard} style={{ width: 'auto' }}> */}
@@ -430,9 +519,11 @@ function Dashboard() {
                       :
                       <>
                           <h3 className={styles.dashboardKeuanganTitle}>
-                            {`${allDataVibration.vibrationName.toUpperCase()}`} SENSOR
+                            {/* {`${allDataVibration.vibrationName.toUpperCase()}`} SENSOR */}
+                            PRESSURE SENSOR
                           </h3>
-                          <p className={styles.dashboardKeuanganDesc}>Data {`${allDataVibration.vibrationName.toLowerCase()}`} sensor</p>
+                          {/* <p className={styles.dashboardKeuanganDesc}>Data {`${allDataVibration.vibrationName.toLowerCase()}`} sensor</p> */}
+                          <p className={styles.dashboardKeuanganDesc}>Data pressure sensor</p>
                       </>
                 }
               </div>
@@ -482,7 +573,7 @@ function Dashboard() {
 
               <div className={styles.tableDashboardCard} style={{ width: '100%' }}>
                 <h3 className={styles.dashboardTableTitle}>Record 1</h3>
-                <ApexChart data={dataY} categories={dataX} className={styles.dashboardChart} width='auto'/>
+                <ApexChartPressure data={dataY} categories={dataX} className={styles.dashboardChart} width='auto'/>
                 {/* <Table columns={columnsVibration} dataSource={dataVibration} pagination={false} /> */}
               </div>
               {/* <div className={styles.tableDashboardCard} style={{ width: '100%' }}>

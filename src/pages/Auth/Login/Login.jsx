@@ -36,7 +36,7 @@ function Login(props) {
 
     var config = {
       method: 'post',
-      url: 'https://wild-tan-tadpole-tutu.cyclic.app/auth/login',
+      url: 'https://rcm-albert.dhani.cloud/auth/login',
       headers: {
         'Content-Type': 'application/json'
       },

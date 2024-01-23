@@ -222,7 +222,7 @@ function History() {
 
             var config = {
                 method: 'post',
-                url: `https://wild-tan-tadpole-tutu.cyclic.app/flow-sensor/${dataFlowGlobal.id}/add-history`,
+                url: `https://rcm-albert.dhani.cloud/flow-sensor/${dataFlowGlobal.id}/add-history`,
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem("TOKEN")}`,
@@ -268,7 +268,7 @@ function History() {
 
             var config = {
                 method: 'post',
-                url: `https://wild-tan-tadpole-tutu.cyclic.app/vibration-sensor/${dataVibrationGlobal.id}/add-history`,
+                url: `https://rcm-albert.dhani.cloud/vibration-sensor/${dataVibrationGlobal.id}/add-history`,
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem("TOKEN")}`,
@@ -318,7 +318,7 @@ function History() {
 
             var config = {
                 method: 'post',
-                url: `https://wild-tan-tadpole-tutu.cyclic.app/flow-sensor/${dataFlowGlobal.id}/${idDataHistory}/add-data`,
+                url: `https://rcm-albert.dhani.cloud/flow-sensor/${dataFlowGlobal.id}/${idDataHistory}/add-data`,
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem("TOKEN")}`,
@@ -365,7 +365,7 @@ function History() {
 
             var config = {
                 method: 'post',
-                url: `https://wild-tan-tadpole-tutu.cyclic.app/vibration-sensor/${dataVibrationGlobal.id}/${idDataHistory}/add-data`,
+                url: `https://rcm-albert.dhani.cloud/vibration-sensor/${dataVibrationGlobal.id}/${idDataHistory}/add-data`,
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem("TOKEN")}`,
@@ -411,7 +411,7 @@ function History() {
             var config = {
                 method: 'patch',
                 maxBodyLength: Infinity,
-                url: `https://wild-tan-tadpole-tutu.cyclic.app/flow-sensor/${flowId}/update-flow-name`,
+                url: `https://rcm-albert.dhani.cloud/flow-sensor/${flowId}/update-flow-name`,
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem("TOKEN")}`,
@@ -457,7 +457,7 @@ function History() {
             var config = {
                 method: 'patch',
                 maxBodyLength: Infinity,
-                url: `https://wild-tan-tadpole-tutu.cyclic.app/vibration-sensor/${vibId}/update-vibration-name`,
+                url: `https://rcm-albert.dhani.cloud/vibration-sensor/${vibId}/update-vibration-name`,
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem("TOKEN")}`,
@@ -506,7 +506,7 @@ function History() {
             okType: 'danger',
             cancelText: 'No',
             onOk() {
-                axios.delete(`https://wild-tan-tadpole-tutu.cyclic.app/flow-sensor/${dataFlowGlobal.id}/${idHistory}/${idDataHistory}`, {
+                axios.delete(`https://rcm-albert.dhani.cloud/flow-sensor/${dataFlowGlobal.id}/${idHistory}/${idDataHistory}`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("TOKEN")}`
                     }
@@ -553,7 +553,7 @@ function History() {
             okType: 'danger',
             cancelText: 'No',
             onOk() {
-                axios.delete(`https://wild-tan-tadpole-tutu.cyclic.app/vibration-sensor/${dataVibrationGlobal.id}/${idHistory}/${idDataHistory}`, {
+                axios.delete(`https://rcm-albert.dhani.cloud/vibration-sensor/${dataVibrationGlobal.id}/${idHistory}/${idDataHistory}`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("TOKEN")}`
                     }
@@ -601,7 +601,7 @@ function History() {
             okType: 'danger',
             cancelText: 'No',
             onOk() {
-                axios.delete(`https://wild-tan-tadpole-tutu.cyclic.app/flow-sensor/${dataFlowGlobal.id}/history/${idHistory}`, {
+                axios.delete(`https://rcm-albert.dhani.cloud/flow-sensor/${dataFlowGlobal.id}/history/${idHistory}`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("TOKEN")}`
                     }
@@ -649,7 +649,7 @@ function History() {
             okType: 'danger',
             cancelText: 'No',
             onOk() {
-                axios.delete(`https://wild-tan-tadpole-tutu.cyclic.app/vibration-sensor/${dataVibrationGlobal.id}/history/${idHistory}`, {
+                axios.delete(`https://rcm-albert.dhani.cloud/vibration-sensor/${dataVibrationGlobal.id}/history/${idHistory}`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("TOKEN")}`
                     }
@@ -698,7 +698,7 @@ function History() {
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: 'https://wild-tan-tadpole-tutu.cyclic.app/flow-sensor/all',
+            url: 'https://rcm-albert.dhani.cloud/flow-sensor/all',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("TOKEN")}`,
             },
@@ -715,7 +715,7 @@ function History() {
 
                 var config = {
                     method: 'get',
-                    url: `https://wild-tan-tadpole-tutu.cyclic.app/flow-sensor/${response.data[0].id}`,
+                    url: `https://rcm-albert.dhani.cloud/flow-sensor/${response.data[0].id}`,
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem("TOKEN")}`
                     }
@@ -756,7 +756,7 @@ function History() {
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: 'https://wild-tan-tadpole-tutu.cyclic.app/vibration-sensor/all',
+            url: 'https://rcm-albert.dhani.cloud/vibration-sensor/all',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("TOKEN")}`,
             },
@@ -771,7 +771,7 @@ function History() {
                 var config = {
                     method: 'get',
                     maxBodyLength: Infinity,
-                    url: `https://wild-tan-tadpole-tutu.cyclic.app/vibration-sensor/${response.data[0].id}`,
+                    url: `https://rcm-albert.dhani.cloud/vibration-sensor/${response.data[0].id}`,
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem("TOKEN")}`,
                     },
@@ -960,7 +960,7 @@ function History() {
                             {
                                 detailUser.role !== "user" && <button onClick={() => showModal("add record flow")} className={styles.addRecord}>Add Record</button>
                             }
-
+                            {console.log('ini dataFlowhistory: ', dataFlowHistory)}
                             {dataFlowHistory.map((item) => {
                                 return (
                                     <div key={item.id} className={styles.tableDashboardCard}>
@@ -994,10 +994,10 @@ function History() {
                                             <tbody>
                                                 {item.data.map((dataHistory) => (
                                                     <tr key={dataHistory.id}>
-                                                        <td>{dataHistory.duration}</td>
-                                                        <td>{dataHistory.timeStart}</td>
-                                                        <td>{dataHistory.timeEnd}</td>
-                                                        <td>{dataHistory.status}</td>
+                                                        <td>{dataHistory.duration === null ? '-' : dataHistory.duration}</td>
+                                                        <td>{dataHistory.timeStart === null ? '-' : dataHistory.timeStart}</td>
+                                                        <td>{dataHistory.timeEnd === null ? '-' : dataHistory.timeEnd}</td>
+                                                        <td>{dataHistory.status === null ? '-' : dataHistory.status}</td>
                                                         {
                                                             detailUser.role !== "user" &&
                                                             <td>
@@ -1092,10 +1092,10 @@ function History() {
                                             <tbody>
                                                 {item.data.map((dataHistory) => (
                                                     <tr key={dataHistory.id}>
-                                                        <td>{dataHistory.duration}</td>
-                                                        <td>{dataHistory.timeStart}</td>
-                                                        <td>{dataHistory.timeEnd}</td>
-                                                        <td>{dataHistory.status}</td>
+                                                        <td>{dataHistory.duration === null ? '-' : dataHistory.duration}</td>
+                                                        <td>{dataHistory.timeStart === null ? '-' : dataHistory.timeStart}</td>
+                                                        <td>{dataHistory.timeEnd === null ? '-' : dataHistory.timeEnd}</td>
+                                                        <td>{dataHistory.status === null ? '-' : dataHistory.status}</td>
                                                         {
                                                             detailUser.role !== "user" &&
                                                             <td>
