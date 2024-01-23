@@ -16,7 +16,7 @@ function Patient() {
   useEffect(() => {
     var config = {
       method: 'get',
-      url: 'https://wild-tan-tadpole-tutu.cyclic.app/admin/users',
+      url: 'https://rcm-albert.dhani.cloud/admin/users',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem("TOKEN")}`
       }
